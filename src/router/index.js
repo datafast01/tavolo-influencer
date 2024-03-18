@@ -46,7 +46,7 @@ const routes = [
     path: "/profile",
     name: "profile",
     component: () =>
-      import(/* webpackChunkName: "about" */ "../pages/profile/index.vue"),
+      import(/* webpackChunkName: "about" */ "../pages/profile/ViewProfile.vue"),
     //  redirect: () => ({  name: 'login' }),
     meta: { requiresAuth: false },
   },

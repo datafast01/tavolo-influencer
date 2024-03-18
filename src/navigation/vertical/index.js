@@ -6,7 +6,7 @@ import dashboard from "./dashboard";
 // import menuItems from "./menuItems";
 // import messages from "./messages";
 // import orders from "./orders";
-// import profile from "./profile";
+import profile from "./profile";
 // import schedule from "./schedule";
 // import socialMedia from "./socialMedia";
 // import videos from "./videos";
@@ -15,5 +15,6 @@ import dashboard from "./dashboard";
 
 export default [
   ...dashboard,
+  ...profile
 
 ];
