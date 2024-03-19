@@ -50,6 +50,22 @@ const routes = [
     //  redirect: () => ({  name: 'login' }),
     meta: { requiresAuth: false },
   },
+  {
+    path: "/contract-details/:id",
+    name: "contract-details",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../pages/contracts/ContractDetails.vue"),
+    //  redirect: () => ({  name: 'login' }),
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/contracts",
+    name: "contracts",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../pages/contracts/ListContracts.vue"),
+    //  redirect: () => ({  name: 'login' }),
+    meta: { requiresAuth: true },
+  },
 
   { path: '/:catchAll(.*)', component: () =>
       import(/* webpackChunkName: "about" */ "../pages/pages/misc/not-found.vue"),meta: { requiresAuth: false } }

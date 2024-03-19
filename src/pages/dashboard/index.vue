@@ -5,7 +5,7 @@
         <div>
           <v-card class="pa-4">
             <div class="d-flex justify-space-between">
-              <div style="width: 319px; height: 256px">
+              <div style="width: 319px; height: 226px">
                 <div class="mt-0 mb-2">Latest Post Performance</div>
                 <BarChart :chart-data="data" :chart-options="chartOptions" />
               </div>
@@ -17,7 +17,12 @@
                     :key="item.logo"
                   >
                     <div class="">
-                      <VAvatar start :image="item.logo" size="36" class="pa-2" />
+                      <VAvatar
+                        start
+                        :image="item.logo"
+                        size="36"
+                        class="pa-2"
+                      />
                     </div>
                   </div>
                 </VList>
@@ -30,12 +35,12 @@
           <v-card class="mt-6" elevation="16" min-height="245">
             <v-card-text>
               <div
-                class="d-flex justify-space-between my-3"
-                style="min-height: 100px"
+                class="d-flex justify-space-between mt-3"
+                style="min-height: 0px"
               >
-                <div>
-                  {{ testemonial.review }}
-                </div>
+                <p class="text-h6 ">Latest Review</p>
+
+               
                 <div>
                   <v-rating
                     :model-value="testemonial.rating"
@@ -46,7 +51,10 @@
                   ></v-rating>
                 </div>
               </div>
-              <div class="d-flex justify-space-between mt-3">
+              <div>
+                  {{ testemonial.review }}
+                </div>
+              <div class="d-flex justify-space-between mt-2">
                 <div class="d-flex align-center">
                   <div>
                     <v-avatar :image="avatar" class="custom-avatar"></v-avatar>
@@ -72,7 +80,7 @@
             <v-textarea
               label="New Messages"
               row-height="20"
-              rows="7"
+              rows="9.5"
               variant="filled"
               auto-grow
             ></v-textarea>
@@ -91,7 +99,7 @@
           </VCol>
           <VCol cols="12"
             ><div>
-              <v-card class="pa-5" style="height: 107vh">
+              <v-card class="pa-5" style="height: 109vh">
                 <div>Activity Timeline</div>
               </v-card>
             </div>
@@ -283,9 +291,8 @@ let emailStates = ref({});
 @use "@core/scss/template/libs/apex-chart.scss";
 @use "@core/scss/template/pages/misc.scss";
 
-
-.bg-icons{
-  background-color: #3B325E;
+.bg-icons {
+  background-color: #3b325e;
   border-radius: 50%;
 }
 .misc-footer-tree {
