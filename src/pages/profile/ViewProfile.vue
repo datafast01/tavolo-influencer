@@ -1,7 +1,6 @@
 <template>
   <div>
     <VRow>
-
       <v-spacer></v-spacer>
       <v-spacer></v-spacer>
       <v-spacer></v-spacer>
@@ -9,7 +8,6 @@
 
       <VCol class="align-self-center">
         <div class="d-flex align-center justify-center">
-
           <v-btn>Edit Profile Details</v-btn>
         </div>
       </VCol>
@@ -18,7 +16,11 @@
       <VCardText>
         <div class="d-flex justify-space-between align-center">
           <div class="d-flex align-center">
-            <v-avatar :image="avatar" size="180" class="custom-avatar"></v-avatar>
+            <div class="relative">
+              <v-avatar :image="avatar" size="180" class="custom-avatar">
+              </v-avatar>
+              <div class="edit-profile"><v-icon>mdi-pencil </v-icon></div>
+            </div>
             <div class="d-flex flex-column">
               <span>
                 <span class="f-22"> Name Surname </span>
@@ -34,12 +36,21 @@
               <span> Followers </span>
             </div>
             <div>
-              <v-rating :model-value="3.5" color="yellow-darken-3" half-increments density="compact"
-                readonly></v-rating>
+              <v-rating
+                :model-value="3.5"
+                color="yellow-darken-3"
+                half-increments
+                density="compact"
+                readonly
+              ></v-rating>
             </div>
           </div>
         </div>
-        <v-tabs v-model="tab" color="deep-purple-accent-4" align-tabs="space-between">
+        <v-tabs
+          v-model="tab"
+          color="deep-purple-accent-4"
+          align-tabs="space-between"
+        >
           <v-tab value="1">Bio</v-tab>
           <v-tab value="2">Projects</v-tab>
 
@@ -130,7 +141,15 @@ export default {
   /* Adjust box-sizing if needed */
   margin: 20px;
 }
-
+.edit-profile {
+      border: 2px solid #8d53f6;
+    padding: 7px;
+    border-radius: 37px;
+    position: absolute;
+    bottom: 22px;
+    right: 21px;
+    color: #8d53f6;
+}
 ::v-deep .v-slide-group__content {
   justify-content: space-between;
 }

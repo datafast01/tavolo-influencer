@@ -105,13 +105,13 @@
               <div class="d-flex align-center">
                 <v-progress-linear
                   v-model="slider"
-                  color="#3CB22B"
+                  color="#9155FD"
                   hide-details
                   class="mr-3"
-                  style="height: 6px; left: 0%; transform: translateX(0%)"
+                  style="height: 7px; left: 0%; transform: translateX(0%)"
                 >
                 </v-progress-linear>
-                <span class="green-1">45%</span>
+                <span class="purple">45%</span>
               </div>
             </v-card-item>
           </v-card>
@@ -279,6 +279,9 @@
 
   <ReviewDialog v-model:isDialogVisible="isCardEditDialogVisible" />
   <PauseDialog v-model:isDialogVisible="isCardEditDialogVisibles" />
+
+
+
   <VDialog v-model="showModal" max-width="700">
     <!-- Dialog Activator -->
 
@@ -355,6 +358,10 @@
       </VCardText>
     </VCard>
   </VDialog>
+
+
+
+  
 </template>
 
 <script>
@@ -454,5 +461,9 @@ export default {
 }
 .blue-1 {
   color: #1d42b9;
+}
+
+.purple{
+  color: #9155FD;
 }
 </style>

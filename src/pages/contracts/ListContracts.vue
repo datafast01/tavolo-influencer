@@ -73,6 +73,7 @@
             <v-icon>mdi-chevron-down</v-icon>
             <VMenu activator="parent">
               <VList>
+                
                 <VListItem @click="sendRequest()">
                   <VListItemTitle>Chat</VListItemTitle>
                 </VListItem>
@@ -204,6 +205,7 @@
           </VCardText>
         </VCard>
       </VDialog>
+      
     </VCard>
   </section>
 </template>
@@ -211,11 +213,10 @@
 <script setup>
 import moment from "moment";
 import { VDataTableServer } from "vuetify/lib/components/index.mjs";
-import play1 from "@/assets/images/cards/folder.png"
+import play1 from "@/assets/images/cards/folder.png";
 import { useUserListStore } from "@/views/apps/user/useUserListStore";
 import { useRouter } from "vue-router";
 import dropdown from "./dropdown.vue";
-
 
 const showModal = ref(false);
 const userListStore = useUserListStore();

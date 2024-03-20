@@ -1,17 +1,18 @@
 <script setup>
 import avatar5 from "@images/avatars/avatar-5.png";
+import avatar4 from "@images/avatars/avatar-5.png";
 const date = new Date();
 const month = date.getMonth();
 const day = date.getDay();
 const notifications = ref([
-  // {
-  //   id: 1,
-  //   img: avatar4,
-  //   title: 'Congratulation Flora! 🎉',
-  //   subtitle: 'Won the monthly best seller badge',
-  //   time: 'Today',
-  //   isSeen: true,
-  // },
+  {
+    id: 1,
+    img: avatar4,
+    title: 'Congratulation Flora! 🎉',
+    subtitle: 'Won the monthly best seller badge',
+    time: 'Today',
+    isSeen: true,
+  },
   // {
   //   id: 2,
   //   text: 'Tom Holland',
@@ -82,4 +83,5 @@ const handleNotificationClick = (notification) => {
     @unread="markUnRead"
     @click:notification="handleNotificationClick"
   />
+  
 </template>
