@@ -16,18 +16,7 @@
             <span class="font-12">{{ index.size }}</span>
           </div>
         </div>
-        <div>
-          <div class="d-flex align-center justify-center">
-            <!-- <v-img :src="index.image" height="30" width="30" alt="John"></v-img> -->
-            <!-- <v-btn
-              class="ml-2"
-              @click="executeSendRequest"
-              elevation="24"
-              size="large"
-              >Ask for revision</v-btn
-            > -->
-          </div>
-        </div>
+      
       </div>
     </v-col>
     <v-col cols="12" class="text-center">

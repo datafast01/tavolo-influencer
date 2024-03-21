@@ -31,7 +31,7 @@
               </div>
 
               <div class="file-upload-form">
-                Upload an image file:
+              
                 <input
                   ref="fileInput"
                   type="file"
