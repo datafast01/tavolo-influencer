@@ -1,7 +1,12 @@
 <template>
   <div>
     <div class="my-8" v-for="bio in details" :key="bio">
-      <span class="ml-2"> {{ bio.heading }}</span>
+      <div class="d-flex justify-space-between">
+        <span class="ml-2"> {{ bio.heading }}</span>
+        <button @click="bioEditDialog" class="ml-2">
+          <v-icon>mdi-pencil</v-icon>
+        </button>
+      </div>
       <v-card class="mt-4" elevation="16">
         <v-card-text v-if="bio.accounts">
           <div
@@ -41,18 +46,31 @@
         </v-card-text>
       </v-card>
     </div>
+    <BioEditDialog v-model:isDialogVisible="bioEditDialogVisible" />
   </div>
 </template>
 
 <script>
+import BioEditDialog from "./BioEditDialog.vue"
 export default {
+  components:{BioEditDialog},
   props: {
     details: {
       type: Object,
       default: {},
     },
   },
-  data() {},
+  data() {
+    return{
+      bioEditDialogVisible:false,
+    }
+  },
+
+  methods: {
+    bioEditDialog() {
+      this.bioEditDialogVisible = true;
+    },
+  },
 };
 </script>
 

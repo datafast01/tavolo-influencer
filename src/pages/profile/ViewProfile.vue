@@ -17,7 +17,7 @@
         <div class="d-flex justify-space-between align-center">
           <div class="d-flex align-center">
             <div>
-              <div class="relative" style="position: relative;">
+              <div class="relative" style="position: relative">
                 <div v-if="imageData.length > 0">
                   <v-avatar
                     :image="imageData"
@@ -25,13 +25,18 @@
                     class="custom-avatar"
                   ></v-avatar>
                 </div>
+                <div v-else>
+                  <!-- Show default image or placeholder if no image uploaded -->
+                  <v-avatar size="180" class="custom-avatar">
+                    <img :src="avatar" alt="Default Image" />
+                  </v-avatar>
+                </div>
                 <div class="edit-profile" @click="openFileInput">
                   <v-icon>mdi-pencil</v-icon>
                 </div>
               </div>
 
               <div class="file-upload-form">
-              
                 <input
                   ref="fileInput"
                   type="file"
@@ -118,6 +123,7 @@ export default {
       details: [
         {
           heading: "ABOUT",
+  
           desc: "Biography: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent quis nulla eget ipsum feugiat feugiat. Sed semper libero metus, sit amet commodo magna pulvinar a. Suspendisse nec varius dui, sit amet elementum sem. Duis ut elit sed elit iaculis venenatis eu eu sem. Vestibulum vitae ipsum tortor. Suspendisse nec varius dui, sit amet elementum sem. Duis ut elit sed elit iaculis venenatis eu eu sem. Vestibulum vitae ipsum tortor.",
         },
         {
