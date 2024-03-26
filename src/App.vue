@@ -32,15 +32,13 @@ const userProfile = computed(() => {
 <template>
   <VLocaleProvider :rtl="isAppRtl">
     <!-- ℹ️ This is required to set the background color of active nav link based on currently active global theme's primary -->
-    <VApp
-      :style="`--v-global-theme-primary: ${hexToRgb(
-        global.current.value.colors.primary
-      )}`"
-    >
-      <template v-if="['login'].includes($route.name)">
+    <VApp :style="`--v-global-theme-primary: ${hexToRgb(
+    global.current.value.colors.primary
+  )}`">
+      <template v-if="['login', 'register'].includes($route.name)">
         <RouterView />
       </template>
-      <div v-show="!['login'].includes($route.name)">
+      <div v-show="!['login', 'register'].includes($route.name)">
         <Default />
         <ScrollToTop />
       </div>
