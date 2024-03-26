@@ -8,6 +8,14 @@ const routes = [
   // NOTE: Role is just for UI purposes. ACL is based on abilities.
  
   {
+    path: "/register",
+    name: "register",
+
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../pages/register.vue"),
+    meta: { requiresAuth: false },
+  },
+  {
     path: "/login",
     name: "login",
     component: () =>

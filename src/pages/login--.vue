@@ -30,12 +30,21 @@
       >
         <VCard flat :max-width="500" class="mt-12 mt-sm-0 pa-4">
           <VCardText>
-            <h5 class="text-h5 mb-1">Welcome to Tavolo! 👋🏻</h5>
-            <p class="mb-0">
-              Please sign-in to your account and start the adventure
-            </p>
+            <h5 class="text-h5 mb-1">Welcome to Tavolo Admin</h5>
           </VCardText>
-
+          <!-- <VCardText>
+            <VAlert
+              color="primary"
+              variant="tonal"
+            >
+              <p class="text-caption mb-2">
+                Admin Email: <strong>admin@demo.com</strong> / Pass: <strong>admin</strong>
+              </p>
+              <p class="text-caption mb-0">
+                Client Email: <strong>client@demo.com</strong> / Pass: <strong>client</strong>
+              </p>
+            </VAlert>
+          </VCardText> -->
           <VCardText>
             <VForm ref="refVForm" @submit.prevent="onSubmit">
               <VRow>
@@ -82,15 +91,6 @@
                 </VCol>
 
                 <!-- create account -->
-                <VCol cols="12" class="text-center">
-                  <span>New on our platform?</span>
-                  <RouterLink
-                    class="text-primary ms-2"
-                    :to="{ name: 'register' }"
-                  >
-                    Create an account
-                  </RouterLink>
-                </VCol>
               </VRow>
             </VForm>
           </VCardText>
@@ -211,11 +211,11 @@ const login = () => {
     });
 };
 
-const onSubmit = () => {
-  refVForm.value?.validate().then(({ valid: isValid }) => {
-    if (isValid) login();
-  });
-};
+// const onSubmit = () => {
+//   refVForm.value?.validate().then(({ valid: isValid }) => {
+//     if (isValid) login();
+//   });
+// };
 const checkUser = (type) => {
   userType.value = type;
   dialog.value = false;

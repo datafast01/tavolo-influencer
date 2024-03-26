@@ -23,7 +23,6 @@ const logout = () => {
 
 const userData = JSON.parse(localStorage.getItem("userData"));
 // console.log(userData, "thi si suser data");
-
 const userProfileList = [
   {
     type: "navItem",
@@ -64,18 +63,18 @@ const userProfileList = [
   //   title: "Help",
   //   to: { name: "pages-help-center" },
   // },
-  {
-    type: "navItem",
-    icon: "mdi-currency-usd",
-    title: "Pricing",
-    to: { name: "pricing" },
-  },
-  {
-    type: "navItem",
-    icon: "mdi-cash",
-    title: "Billing",
-    to: { name: "billing-history" },
-  },
+  // {
+  //   type: "navItem",
+  //   icon: "mdi-currency-usd",
+  //   title: "Pricing",
+  //   to: { name: "pricing" },
+  // },
+  // {
+  //   type: "navItem",
+  //   icon: "mdi-cash",
+  //   title: "Billing",
+  //   to: { name: "billing-history" },
+  // },
   // {
   //   type: "navItem",
   //   icon: "mdi-help-circle-outline",
@@ -99,7 +98,6 @@ const avatarBadgeProps = {
   color: "success",
   bordered: true,
 };
-
 </script>
 
 <template>
