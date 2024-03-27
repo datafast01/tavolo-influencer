@@ -96,12 +96,12 @@ export default {
             </VCol>
             <VCol>
               <div class="d-flex justify-center flex-wrap ga-2">
-                <v-chip @click="ship" color="primary"> Good Engagement </v-chip>
-                <v-chip @click="ship" color="primary"> Post and Story </v-chip>
-                <v-chip @click="ship" color="primary"> Instagram </v-chip>
-                <v-chip @click="ship" color="primary"> Usage Rights </v-chip>
-                <v-chip @click="ship" color="primary"> 10 Recordings Per Month </v-chip>
-                <v-chip @click="ship" color="primary"> Usage Rights </v-chip>
+                <v-chip  closable @click="ship" color="primary"> Good Engagement </v-chip>
+                <v-chip  closable @click="ship" color="primary"> Post and Story </v-chip>
+                <v-chip  closable @click="ship" color="primary"> Instagram </v-chip>
+                <v-chip  closable @click="ship" color="primary"> Usage Rights </v-chip>
+                <v-chip  closable @click="ship" color="primary"> 10 Recordings Per Month </v-chip>
+                <v-chip  closable @click="ship" color="primary"> Usage Rights </v-chip>
               </div>
             </VCol>
           </VRow>
