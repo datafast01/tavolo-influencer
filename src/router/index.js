@@ -6,7 +6,7 @@ import { createRouter, createWebHistory } from "vue-router";
 const routes = [
   // ℹ️ We are redirecting to different pages based on role.
   // NOTE: Role is just for UI purposes. ACL is based on abilities.
- 
+
   {
     path: "/register",
     name: "register",
@@ -31,14 +31,14 @@ const routes = [
     //  redirect: () => ({  name: 'login' }),
     meta: { requiresAuth: false },
   },
-  
-     {
+
+  {
     path: "/reset-password",
     name: "pages-authentication-login-v2",
     component: () =>
       import(/* webpackChunkName: "about" */ "../pages/pages/authentication/reset-password-v2.vue"),
     //  redirect: () => ({  name: 'login' }),
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: false },
   },
   {
     path: "/",
@@ -64,7 +64,7 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../pages/contracts/ContractDetails.vue"),
     //  redirect: () => ({  name: 'login' }),
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: false },
   },
   {
     path: "/contracts",
@@ -72,11 +72,13 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../pages/contracts/ListContracts.vue"),
     //  redirect: () => ({  name: 'login' }),
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: false },
   },
 
-  { path: '/:catchAll(.*)', component: () =>
-      import(/* webpackChunkName: "about" */ "../pages/pages/misc/not-found.vue"),meta: { requiresAuth: false } }
+  {
+    path: '/:catchAll(.*)', component: () =>
+      import(/* webpackChunkName: "about" */ "../pages/pages/misc/not-found.vue"), meta: { requiresAuth: false }
+  }
   //  {
   //   path: '/auto-email',
   //   redirect: () => ({  name: 'email' }),
@@ -106,7 +108,7 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   let auth = localStorage.getItem("token");
 
-  
+
 
   // Not logged into a guarded route?
   if (to.meta.requiresAuth === true && auth == null) {
@@ -134,13 +136,13 @@ router.beforeEach((to, from, next) => {
     // Alternatively, if you want to redirect using a full URL
     // window.location.href = 'https://www.web.tavolo.ai/dashboard';
   }
-  if(to.query.merchant_id && to.query.employee_id){
+  if (to.query.merchant_id && to.query.employee_id) {
     console.log(to.query.merchant_id, 'mercahn', to.query.employee_id)
     localStorage.setItem('merchant_id', to.query.merchant_id)
     localStorage.setItem('employee_id', to.query.employee_id)
     localStorage.setItem('client_id', to.query.client_id)
     localStorage.setItem('clover_code', to.query.code)
-next('/profile');
+    next('/profile');
   }
 
   // Carry On...
@@ -160,45 +162,45 @@ next('/profile');
 //   return { name: 'login' }
 // }
 
-    // if isLoggedIn is False then user is logged in
-  // if (to.name !== "login"  && isLoggedIn)
-  // {
-  //   next({ name: 'login' })
-  // }
-  // else if(to.name == "register"){
-  //   next({name: 'register'})
-  // }
-  // else next()
- 
+// if isLoggedIn is False then user is logged in
+// if (to.name !== "login"  && isLoggedIn)
+// {
+//   next({ name: 'login' })
+// }
+// else if(to.name == "register"){
+//   next({name: 'register'})
+// }
+// else next()
 
-  //     // ℹ️ Commented code is legacy code
 
-  //     if (to) {
-  //       // Redirect to login if not logged in
-  //       // ℹ️ Only add `to` query param if `to` route is not index route
-  //       if (!isLoggedIn)
+//     // ℹ️ Commented code is legacy code
 
-  //         return next({ name: 'login', query: { to: to.name !== 'index' ? to.fullPath : undefined } })
+//     if (to) {
+//       // Redirect to login if not logged in
+//       // ℹ️ Only add `to` query param if `to` route is not index route
+//       if (!isLoggedIn)
 
-  //       // If logged in => not authorized
-  //       return next({ name: 'not-authorized' })
-  //     }
+//         return next({ name: 'login', query: { to: to.name !== 'index' ? to.fullPath : undefined } })
 
-  //     // Redirect if logged in
-  //     if (to.meta.redirectIfLoggedIn && isLoggedIn)
-  //       next('/')
+//       // If logged in => not authorized
+//       return next({ name: 'not-authorized' })
+//     }
 
-  //     return next()
+//     // Redirect if logged in
+//     if (to.meta.redirectIfLoggedIn && isLoggedIn)
+//       next('/')
 
-  // if (canNavigate(to)) {
-  //   if (to.meta.redirectIfLoggedIn && isLoggedIn)
-  //     return '/'
-  // }
-  // else {
-  //   if (isLoggedIn)
-  //     return { name: 'not-authorized' }
-  //   else
-  //     return { name: 'login', query: { to: to.name !== 'index' ? to.fullPath : undefined } }
-  // }
+//     return next()
+
+// if (canNavigate(to)) {
+//   if (to.meta.redirectIfLoggedIn && isLoggedIn)
+//     return '/'
+// }
+// else {
+//   if (isLoggedIn)
+//     return { name: 'not-authorized' }
+//   else
+//     return { name: 'login', query: { to: to.name !== 'index' ? to.fullPath : undefined } }
+// }
 
 export default router;

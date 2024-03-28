@@ -35,10 +35,10 @@ const userProfile = computed(() => {
     <VApp :style="`--v-global-theme-primary: ${hexToRgb(
     global.current.value.colors.primary
   )}`">
-      <template v-if="['login', 'register'].includes($route.name)">
+      <template v-if="['login', 'register', 'forgot-password'].includes($route.name)">
         <RouterView />
       </template>
-      <div v-show="!['login', 'register'].includes($route.name)">
+      <div v-show="!['login', 'register', 'forgot-password'].includes($route.name)">
         <Default />
         <ScrollToTop />
       </div>
