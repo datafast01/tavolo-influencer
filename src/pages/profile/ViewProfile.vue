@@ -123,7 +123,6 @@ export default {
       details: [
         {
           heading: "ABOUT",
-  
           desc: "Biography: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent quis nulla eget ipsum feugiat feugiat. Sed semper libero metus, sit amet commodo magna pulvinar a. Suspendisse nec varius dui, sit amet elementum sem. Duis ut elit sed elit iaculis venenatis eu eu sem. Vestibulum vitae ipsum tortor. Suspendisse nec varius dui, sit amet elementum sem. Duis ut elit sed elit iaculis venenatis eu eu sem. Vestibulum vitae ipsum tortor.",
         },
         {
