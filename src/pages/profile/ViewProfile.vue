@@ -1,17 +1,6 @@
 <template>
   <div>
-    <VRow>
-      <v-spacer></v-spacer>
-      <v-spacer></v-spacer>
-      <v-spacer></v-spacer>
-      <v-spacer></v-spacer>
 
-      <VCol class="align-self-center">
-        <div class="d-flex align-center justify-center">
-          <v-btn>Edit Profile Details</v-btn>
-        </div>
-      </VCol>
-    </VRow>
     <VCard variant="tonal" class="mt-4">
       <VCardText>
         <div class="d-flex justify-space-between align-center">
@@ -19,11 +8,7 @@
             <div>
               <div class="relative" style="position: relative">
                 <div v-if="imageData.length > 0">
-                  <v-avatar
-                    :image="imageData"
-                    size="180"
-                    class="custom-avatar"
-                  ></v-avatar>
+                  <v-avatar :image="imageData" size="180" class="custom-avatar"></v-avatar>
                 </div>
                 <div v-else>
                   <!-- Show default image or placeholder if no image uploaded -->
@@ -37,13 +22,7 @@
               </div>
 
               <div class="file-upload-form">
-                <input
-                  ref="fileInput"
-                  type="file"
-                  @change="previewImage"
-                  accept="image/*"
-                  style="display: none"
-                />
+                <input ref="fileInput" type="file" @change="previewImage" accept="image/*" style="display: none" />
               </div>
             </div>
 
@@ -62,21 +41,12 @@
               <span> Followers </span>
             </div>
             <div>
-              <v-rating
-                :model-value="3.5"
-                color="yellow-darken-3"
-                half-increments
-                density="compact"
-                readonly
-              ></v-rating>
+              <v-rating :model-value="3.5" color="yellow-darken-3" half-increments density="compact"
+                readonly></v-rating>
             </div>
           </div>
         </div>
-        <v-tabs
-          v-model="tab"
-          color="deep-purple-accent-4"
-          align-tabs="space-between"
-        >
+        <v-tabs v-model="tab" color="deep-purple-accent-4" align-tabs="space-between">
           <v-tab value="1">Bio</v-tab>
           <v-tab value="2">Projects</v-tab>
 
@@ -102,7 +72,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import axios from "@axios";
+
 import { ref, watch } from "vue";
 import avatar from "@/assets/images/avatars/avatar-1.png";
 import verified from "@/assets/images/svg/verified.svg";
@@ -112,89 +84,57 @@ import InfluencerBio from "./InfuBio.vue";
 import InfuPricing from "./InfuPricing.vue";
 
 import Testemonials from "./Testemonials.vue";
-export default {
-  components: { InfluencerBio, Testemonials, InfuPricing },
-  data() {
-    return {
-      verified: verified,
-      avatar: avatar,
-      location: "California",
-      tab: null,
-      details: [
-        {
-          heading: "ABOUT",
-  
-          desc: "Biography: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent quis nulla eget ipsum feugiat feugiat. Sed semper libero metus, sit amet commodo magna pulvinar a. Suspendisse nec varius dui, sit amet elementum sem. Duis ut elit sed elit iaculis venenatis eu eu sem. Vestibulum vitae ipsum tortor. Suspendisse nec varius dui, sit amet elementum sem. Duis ut elit sed elit iaculis venenatis eu eu sem. Vestibulum vitae ipsum tortor.",
-        },
-        {
-          heading: "PROFESSION",
-          desc: "PROFESSION: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent quis nulla eget ipsum feugiat feugiat. Sed semper libero metus, sit amet commodo magna pulvinar a. Suspendisse nec varius dui, sit amet elementum sem. Duis ut elit sed elit iaculis venenatis eu eu sem. Vestibulum vitae ipsum tortor. Suspendisse nec varius dui, sit amet elementum sem. Duis ut elit sed elit iaculis venenatis eu eu sem. Vestibulum vitae ipsum tortor.",
-        },
-        {
-          heading: "EDUCATION",
-          desc: "EDUCATION: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent quis nulla eget ipsum feugiat feugiat. Sed semper libero metus, sit amet commodo magna pulvinar a. Suspendisse nec varius dui, sit amet elementum sem. Duis ut elit sed elit iaculis venenatis eu eu sem. Vestibulum vitae ipsum tortor. Suspendisse nec varius dui, sit amet elementum sem. Duis ut elit sed elit iaculis venenatis eu eu sem. Vestibulum vitae ipsum tortor.",
-        },
-        {
-          heading: "EXPERIENCE",
-          desc: "EXPERIENCE: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent quis nulla eget ipsum feugiat feugiat. Sed semper libero metus, sit amet commodo magna pulvinar a. Suspendisse nec varius dui, sit amet elementum sem. Duis ut elit sed elit iaculis venenatis eu eu sem. Vestibulum vitae ipsum tortor. Suspendisse nec varius dui, sit amet elementum sem. Duis ut elit sed elit iaculis venenatis eu eu sem. Vestibulum vitae ipsum tortor.",
-        },
-        {
-          heading: "INTERESTS",
-          desc: "INTERESTS: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent quis nulla eget ipsum feugiat feugiat. Sed semper libero metus, sit amet commodo magna pulvinar a. Suspendisse nec varius dui, sit amet elementum sem. Duis ut elit sed elit iaculis venenatis eu eu sem. Vestibulum vitae ipsum tortor. Suspendisse nec varius dui, sit amet elementum sem. Duis ut elit sed elit iaculis venenatis eu eu sem. Vestibulum vitae ipsum tortor.",
-        },
-        {
-          heading: "ACHIEVEMENTS",
-          desc: "ACHIEVEMENTS: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent quis nulla eget ipsum feugiat feugiat. Sed semper libero metus, sit amet commodo magna pulvinar a. Suspendisse nec varius dui, sit amet elementum sem. Duis ut elit sed elit iaculis venenatis eu eu sem. Vestibulum vitae ipsum tortor. Suspendisse nec varius dui, sit amet elementum sem. Duis ut elit sed elit iaculis venenatis eu eu sem. Vestibulum vitae ipsum tortor.",
-        },
-        {
-          heading: "SOCIAL ACCOUNTS",
-          accounts: [
-            { account: "Facebook", connected: false },
-            { account: "Instagram", connected: false },
-            { account: "Tiktok", connected: false },
-          ],
-          desc: "Biography: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent quis nulla eget ipsum feugiat feugiat. Sed semper libero metus, sit amet commodo magna pulvinar a. Suspendisse nec varius dui, sit amet elementum sem. Duis ut elit sed elit iaculis venenatis eu eu sem. Vestibulum vitae ipsum tortor. Suspendisse nec varius dui, sit amet elementum sem. Duis ut elit sed elit iaculis venenatis eu eu sem. Vestibulum vitae ipsum tortor.",
-        },
-      ],
-    };
-  },
-  setup() {
-    const imageData = ref("");
 
-    const previewImage = (event) => {
-      const input = event.target;
-      if (input.files && input.files[0]) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          imageData.value = e.target.result;
-          // Store the image data in local storage
-          localStorage.setItem("imageData", e.target.result);
-        };
-        reader.readAsDataURL(input.files[0]);
-      }
-    };
 
-    const openFileInput = () => {
-      // Programmatically trigger the click event of the file input
-      const fileInput = document.querySelector('input[type="file"]');
-      fileInput.click();
-    };
 
-    // Retrieve the image data from local storage when the component is mounted
-    onMounted(() => {
-      const storedImageData = localStorage.getItem("imageData");
-      if (storedImageData) {
-        imageData.value = storedImageData;
-      }
-    });
+const imageData = ref("");
+const tab = ref(null)
+const location = 'California';
 
-    return {
-      imageData,
-      previewImage,
-      openFileInput,
+const previewImage = (event) => {
+  const input = event.target;
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      imageData.value = e.target.result;
+      // Store the image data in local storage
+      localStorage.setItem("imageData", e.target.result);
     };
-  },
+    reader.readAsDataURL(input.files[0]);
+  }
 };
+
+const openFileInput = () => {
+  // Programmatically trigger the click event of the file input
+  const fileInput = document.querySelector('input[type="file"]');
+  fileInput.click();
+};
+
+// Retrieve the image data from local storage when the component is mounted
+onMounted(() => {
+  const storedImageData = localStorage.getItem("imageData");
+  if (storedImageData) {
+    imageData.value = storedImageData;
+  }
+});
+
+const getUserProfile = () => {
+  // console.log("submit form", ApiService);
+  axios
+    .get(`influencer/content`)
+    .then((response) => {
+      console.log("user", response.data);
+
+
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+
+getUserProfile()
+
 </script>
 
 <style scoped>
@@ -205,6 +145,7 @@ export default {
   /* Adjust box-sizing if needed */
   margin: 20px;
 }
+
 .edit-profile {
   border: 2px solid #8d53f6;
   padding: 7px;

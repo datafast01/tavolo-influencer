@@ -46,7 +46,7 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../pages/dashboard/index.vue"),
     //  redirect: () => ({  name: 'login' }),
-    meta: { requiresAuth: false },
+    meta: { requiresAuth: true },
   },
 
 
@@ -56,7 +56,7 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../pages/profile/ViewProfile.vue"),
     //  redirect: () => ({  name: 'login' }),
-    meta: { requiresAuth: false },
+    meta: { requiresAuth: true },
   },
   {
     path: "/contract-details/:id",
@@ -64,7 +64,7 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../pages/contracts/ContractDetails.vue"),
     //  redirect: () => ({  name: 'login' }),
-    meta: { requiresAuth: false },
+    meta: { requiresAuth: true },
   },
   {
     path: "/contracts",
@@ -72,7 +72,7 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../pages/contracts/ListContracts.vue"),
     //  redirect: () => ({  name: 'login' }),
-    meta: { requiresAuth: false },
+    meta: { requiresAuth: true },
   },
 
   {

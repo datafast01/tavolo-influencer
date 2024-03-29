@@ -5,8 +5,8 @@ import axios from 'axios';
 
 
 const instance = axios.create({
-    baseURL: 'https://server.tavolo.ai/api/',
-    // baseURL: 'http://localhost:8080/api/',
+    // baseURL: 'https://server.tavolo.ai/api/',
+    baseURL: 'http://16.171.214.197:8081/api/',
     // headers: {'X-Custom-Header': 'foobar'}
 });
 
