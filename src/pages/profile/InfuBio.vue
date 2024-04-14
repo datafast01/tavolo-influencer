@@ -1,36 +1,27 @@
 <template>
   <div>
     <VRow>
-      <v-spacer></v-spacer>
-      <v-spacer></v-spacer>
-      <v-spacer></v-spacer>
-      <v-spacer></v-spacer>
 
-      <!-- <VCol class="align-self-center">
-        <div class="d-flex align-center justify-center">
-          <v-btn @click="bioEditDialog">Edit Profile Details</v-btn>
+
+
+      <VCol class="align-self-center">
+        <div class="d-flex  justify-end">
+
+          <v-btn class="mt-3" @click="isEditable" v-if="!detailsActions" icon="mdi-pencil" variant="outlined"
+            :loading="profileImageLoader"></v-btn>
         </div>
-      </VCol> -->
+      </VCol>
     </VRow>
 
     <div class="my-8">
       <div class="d-flex">
         <span class="ml-2"> About</span>
-        <button class="ml-2" @click="isEditable('isAbout')" v-if="!detailsActions.isAbout">
-          <v-icon>mdi-pencil</v-icon>
-        </button>
-        <div v-else>
-          <button class="ml-2" @click="updateDetails">
-            Save
-          </button>
-          <button class="ml-2" @click="detailsActions.isAbout = false">
-            Cancel
-          </button>
-        </div>
+
+
 
       </div>
       <v-card class="mt-4" elevation="16">
-        <v-textarea v-if="detailsActions.isAbout" v-model="details.about"></v-textarea>
+        <v-textarea v-if="detailsActions" v-model="details.about"></v-textarea>
         <v-card-text v-else>
           {{ details.about }}
         </v-card-text>
@@ -63,20 +54,11 @@
     <div class="my-8">
       <div class="d-flex ">
         <span class="ml-2"> Profession</span>
-        <button class="ml-2" @click="isEditable('isProfession')" v-if="!detailsActions.isProfession">
-          <v-icon>mdi-pencil</v-icon>
-        </button>
-        <div v-else>
-          <button class="ml-2" @click="saveDetails">
-            Save
-          </button>
-          <button class="ml-2" @click="detailsActions.isProfession = false">
-            Cancel
-          </button>
-        </div>
+
+
       </div>
       <v-card class="mt-4" elevation="16">
-        <v-textarea v-if="detailsActions.isProfession" v-model="details.profession"></v-textarea>
+        <v-textarea v-if="detailsActions" v-model="details.profession"></v-textarea>
         <v-card-text v-else>
           {{ details.profession }}
         </v-card-text>
@@ -86,20 +68,11 @@
     <div class="my-8">
       <div class="d-flex ">
         <span class="ml-2"> Education</span>
-        <button class="ml-2" @click="isEditable('isEducation')" v-if="!detailsActions.isEducation">
-          <v-icon>mdi-pencil</v-icon>
-        </button>
-        <div v-else>
-          <button class="ml-2" @click="saveDetails">
-            Save
-          </button>
-          <button class="ml-2" @click="detailsActions.isEducation = false">
-            Cancel
-          </button>
-        </div>
+
+
       </div>
       <v-card class="mt-4" elevation="16">
-        <v-textarea v-if="detailsActions.isEducation" v-model="details.education"></v-textarea>
+        <v-textarea v-if="detailsActions" v-model="details.education"></v-textarea>
         <v-card-text v-else>
           {{ details.education }}
         </v-card-text>
@@ -109,20 +82,11 @@
     <div class="my-8">
       <div class="d-flex ">
         <span class="ml-2"> Expecience</span>
-        <button class="ml-2" @click="isEditable('isExperience')" v-if="!detailsActions.isExperience">
-          <v-icon>mdi-pencil</v-icon>
-        </button>
-        <div v-else>
-          <button class="ml-2" @click="saveDetails">
-            Save
-          </button>
-          <button class="ml-2" @click="detailsActions.isExperience = false">
-            Cancel
-          </button>
-        </div>
+
+
       </div>
       <v-card class="mt-4" elevation="16">
-        <v-textarea v-if="detailsActions.isExperience" v-model="details.experience"></v-textarea>
+        <v-textarea v-if="detailsActions" v-model="details.experience"></v-textarea>
         <v-card-text v-else>
           {{ details.experience }}
         </v-card-text>
@@ -132,20 +96,10 @@
     <div class="my-8">
       <div class="d-flex ">
         <span class="ml-2"> Intrests</span>
-        <button class="ml-2" @click="isEditable('isIntrest')" v-if="!detailsActions.isIntrest">
-          <v-icon>mdi-pencil</v-icon>
-        </button>
-        <div v-else>
-          <button class="ml-2" @click="saveDetails">
-            Save
-          </button>
-          <button class="ml-2" @click="detailsActions.isIntrest = false">
-            Cancel
-          </button>
-        </div>
+
       </div>
       <v-card class="mt-4" elevation="16">
-        <v-textarea v-if="detailsActions.isIntrest" v-model="details.intrests"></v-textarea>
+        <v-textarea v-if="detailsActions" v-model="details.intrests"></v-textarea>
         <v-card-text v-else>
           {{ details.intrests }}
         </v-card-text>
@@ -155,34 +109,33 @@
     <div class="my-8">
       <div class="d-flex ">
         <span class="ml-2"> Achievements</span>
-        <button class="ml-2" @click="isEditable('isAchievement')" v-if="!detailsActions.isAchievement">
-          <v-icon>mdi-pencil</v-icon>
-        </button>
-        <div v-else>
-          <button class="ml-2" @click="saveDetails">
-            Save
-          </button>
-          <button class="ml-2" @click="detailsActions.isAchievement = false">
-            Cancel
-          </button>
-        </div>
+
+
       </div>
       <v-card class="mt-4" elevation="16">
-        <v-textarea v-if="detailsActions.isAchievement" v-model="details.achievements"></v-textarea>
+        <v-textarea v-if="detailsActions" v-model="details.achievements"></v-textarea>
         <v-card-text v-else>
           {{ details.achievements }}
         </v-card-text>
+
       </v-card>
+      <div class="mt-4 d-flex justify-end" v-if="detailsActions">
+        <v-btn @click="detailsActions = false" variant="outlined" class="mr-2">Cancel</v-btn>
+
+        <v-btn @click="updateDetails" :loading="updateLoading">Save</v-btn>
+      </div>
+
     </div>
-    <BioEditDialog v-model:isDialogVisible="bioEditDialogVisible" />
+
   </div>
 </template>
 
 <script>
-import BioEditDialog from "./BioEditDialog.vue"
 import axios from "@axios";
+import { useToast } from "vue-toastification";
+
 export default {
-  components: { BioEditDialog },
+  components: {},
   props: {
     details: {
       type: Object,
@@ -191,7 +144,9 @@ export default {
   },
   data() {
     return {
+      toast: useToast(),
       bioEditDialogVisible: false,
+      updateLoading: false,
       details: {
         about: '',
         profession: '',
@@ -202,14 +157,8 @@ export default {
 
 
       },
-      detailsActions: {
-        isAbout: false,
-        isProfession: false,
-        isEducation: false,
-        isExperience: false,
-        isIntrest: false,
-        isAchievement: false
-      }
+
+      detailsActions: false
     }
   },
 
@@ -217,10 +166,11 @@ export default {
     bioEditDialog() {
       this.bioEditDialogVisible = true;
     },
-    isEditable(type) {
-      this.detailsActions[type] = true
+    isEditable() {
+      this.detailsActions = true
     },
     updateDetails() {
+      this.updateLoading = true
       axios
         .post("/influencer/update-content/", {
           about: this.details.about,
@@ -229,27 +179,60 @@ export default {
           profession: this.details.profession,
           intrests: this.details.intrests,
           achievements: this.details.achievements,
-          images: []
+
         })
         .then((res) => {
           console.log(res.data);
-          show.value = true;
-          snkMsg.value = "Successfully logged in";
+
           const userData = res.data;
-          loading.value = false;
+
+          this.updateLoading = false
+          this.detailsActions = false
+          this.toast.success("Details Updated Successfully!");
+
 
         })
         .catch((err) => {
-          loading.value = false;
-          console.error(err);
-          show.value = true;
+          this.updateLoading = false
 
-          snkMsg.value = err.response.data.message;
 
-          color.value = "error";
+        });
+    },
+    getUserProfile() {
+      // console.log("submit form", ApiService);
+      axios
+        .get(`influencer/content`)
+        .then((response) => {
+          console.log("user", response.data.data);
+          if (response.data.data == null) {
+            this.details = {
+              about: '',
+              profession: '',
+              education: '',
+              achievements: '',
+              intrests: '',
+              experience: ''
+
+
+            }
+          } else {
+            this.details = response.data.data
+          }
+
+
+
+        })
+        .catch((err) => {
+          console.log(err);
         });
     }
+
+
+
   },
+  mounted() {
+    this.getUserProfile()
+  }
 };
 </script>
 

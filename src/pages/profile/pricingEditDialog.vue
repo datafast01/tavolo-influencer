@@ -1,211 +1,187 @@
-<script setup>
-import { requiredValidator } from "@validators";
-import { ref } from "vue";
-const props = defineProps({
-  cardDetails: {
-    type: Object,
-    required: false,
-    default: () => ({
-      number: "",
-      name: "",
-      expiry: "",
-      cvv: "",
-      isPrimary: false,
-      type: "",
-    }),
-  },
-  isDialogVisible: {
-    type: Boolean,
-    required: true,
-  },
-});
-
-// Define items array
-const item = ref([
-  "Better Engagement",
-  "Post and Story",
-  "Instagram and Facebook",
-  "Usage Rights",
-  "fizzbuzz",
-  "foobar",
-]);
-
-// Define values array
-const values = ref([
-  "Better Engagement",
-  "Post and Story",
-  "Instagram and Facebook",
-  "Usage Rights",
-  "fizzbuzz",
-]);
-
-// Example function for chip click
-const ship = () => {
-  // Your logic here
-};
-const price = ref("$ 75.00");
-const Description = ref(
-  "For most businesses that want to optimize their sales"
-);
-const Popular = ref("Popular");
-const toggle = ref("single");
-const location = ref("Popular");
-const locations = ref("US Dollar ($)");
-const emit = defineEmits(["submit", "update:isDialogVisible"]);
-
-const cardDetails = ref(structuredClone(toRaw(props.cardDetails)));
-
-watch(props, () => {
-  cardDetails.value = structuredClone(toRaw(props.cardDetails));
-});
-
-// const formSubmit = () => {
-//   emit("submit", cardDetails.value);
-// };
-</script>
-<script>
-import done from "@/assets/images/cards/done2.png";
-export default {
-  data: () => ({
-    done: done,
-    ratingw: 0.5,
-    ratingw1: 0.5,
-    ratingw2: 0.5,
-  }),
-  computed: {
-    computedTotalScore: function () {
-      // Calculate the sum of the first two ratings
-      let totalScore = (this.ratingw + this.ratingw1 + this.ratingw2) / 3;
-      return totalScore.toFixed(1);
-    },
-  },
-};
-</script>
-
 <template>
-  <VDialog
-    :width="$vuetify.display.smAndDown ? 'auto' : 860"
-    :model-value="props.isDialogVisible"
-    @update:model-value="(val) => $emit('update:isDialogVisible', val)"
-  >
-    <VCard class="pa-5 pa-sm-8">
-      <DialogCloseBtn
-        variant="text"
-        size="small"
-        @click="$emit('update:isDialogVisible', false)"
-      />
-
-      <VCardText class="text-h5">
-        <VForm class="mt-0">
-          <VRow>
-            <VCol cols="12" class="text-center">
-              <span class="text-h5">Edit Your Pricing </span>
-            </VCol>
-            <VCol cols="4">
-              <v-select
-                :items="[
-                  'California',
-                  'Colorado',
-                  'Florida',
-                  'Georgia',
-                  'Texas',
-                  'Wyoming',
-                ]"
-                variant="solo-filled"
-                dense
-                v-model="location"
-              >
+  <v-dialog :width="$vuetify.display.smAndDown ? 'auto' : 860" v-model="dialog">
+    <v-card class="pa-5 pa-sm-8">
+      <v-card-text class="text-h5">
+        <v-form class="mt-0" ref="pricingForm">
+          <v-row>
+            {{ editMode }}
+            <v-col cols="12" class="text-center">
+              <span class="text-h5">{{ editMode ? 'Edit' : 'Create' }} your pricing plan</span>
+            </v-col>
+            <!-- <VCol cols="4">
+              <v-select variant="solo-filled" :items="pacaketypes" item-title="name" item-value="value"
+                v-model="selectedPackage" dense label="Select package type">
               </v-select>
             </VCol>
             <VCol cols="8">
-              <v-btn-toggle
-                class="w-100"
-                style="height: 55px"
-                v-model="toggle"
-                color="primary"
-                variant="outlined"
-                mandatory
-              >
+              <v-btn-toggle class="w-100" style="height: 55px" v-model="packageType" color="primary" variant="outlined"
+                mandatory>
                 <v-btn class="w-50" value="single">Single</v-btn>
                 <v-btn class="w-50" value="monthly">Monthly</v-btn>
               </v-btn-toggle>
-            </VCol>
+            </VCol> -->
 
             <VCol cols="12" class="mt-3">
-              <VTextField
-                v-model="Popular"
-                label="Title"
-                Value="Lorem Ipsum"
-                :rules="[requiredValidator, alphaValidator, isNameValid]"
-              />
+              <VTextField v-model="title" label="Title" :rules="[requiredValidator]" />
             </VCol>
 
             <VCol cols="12">
-              <VTextField
-                v-model="Description"
-                label="Description"
-                Value="Lorem Ipsum"
-                :rules="[requiredValidator, alphaValidator, isNameValid]"
-              />
+              <VTextField v-model="description" label="Description" :rules="[requiredValidator]" />
             </VCol>
 
             <VCol cols="12">
-              <v-select
-                v-model="values"
-                :items="item"
-                label="Select Item"
-                multiple
-              >
-                <template v-slot:selection="{ item, index }">
-                  <v-chip
-                    label
-                    class="ma-1"
-                    closable
-                    @click="ship"
-                    color="primary"
-                  >
-                    <span>{{ item.title }}</span>
-                  </v-chip>
-                </template>
-              </v-select>
+              <v-combobox chips label="Key Points" multiple closable-chips flat v-model="features"
+                hint="Maximum of 5 tags"
+                :items="['Better Engagement', 'Post and Story', 'Instagram and Facebook', 'Usage Rights']"
+                :rules="[requiredValidator]">
+
+
+              </v-combobox>
             </VCol>
 
             <VCol cols="8">
-              <VTextField
-                v-model="price"
-                label="Price"
-                Value="Lorem Ipsum"
-                :rules="[requiredValidator, alphaValidator, isNameValid]"
-              />
+              <VTextField v-model="price" prefix="$" label="Price" type="number" :rules="[requiredValidator]" />
             </VCol>
-            <VCol cols="4">
-              <v-select
-                :items="[
-                  'US Dollar ($)',
-                  'USA Dollar ($)',
-                  ' Dollar ($)',
-                  'US Dollar ($)',
-                  'US Dollar ($)',
-                  'US Dollar ($)',
-                ]"
-                dense
-                v-model="locations"
-              >
+            <!-- <VCol cols="4">
+              <v-select :items="currencies" item-value="value" item-text="name" dense v-model="currency"
+                label="Currency" :rules="[requiredValidator]">
               </v-select>
-            </VCol>
-            <VCol>
-              <div class="text-center mt-3">
-                <VBtn color="secondary mr-4" @click="showModal = false">
-                  Cancel
-                </VBtn>
-                <VBtn color="primary  " @click="sendCampaign">
-                  UPDATE
-                </VBtn>
-              </div>
-            </VCol>
-          </VRow>
-        </VForm>
-      </VCardText>
-    </VCard>
-  </VDialog>
+            </VCol> -->
+
+          </v-row>
+        </v-form>
+      </v-card-text>
+      <v-card-actions>
+        <v-btn color="secondary" @click="closeDialog">Cancel</v-btn>
+        <v-btn color="primary" @click="submitForm" :loading="loading">{{ editMode ? 'Save' : 'Create' }}</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
+
+<script>
+import done from "@/assets/images/cards/done2.png";
+import axios from '@axios'
+import { requiredValidator } from "@/@core/utils/validators";
+
+export default {
+  props: {
+    editMode: {
+      type: Boolean,
+      default: false
+    },
+    pricingPlan: {
+      type: Object,
+      default: () => ({})
+    }
+  },
+  data() {
+    return {
+      requiredValidator: requiredValidator,
+      done: done,
+      dialog: false,
+      packageTypes: [
+        { name: 'Silver', value: 'silver' },
+        { name: 'Gold', value: 'gold' },
+        { name: 'Platinum', value: 'platinum' }
+      ],
+      currencies: [{ name: 'US Dollar ($)', value: '$' }],
+      loading: false,
+      features: [],
+      selectedPackage: null,
+      packageType: 'monthly',
+      currency: null,
+      price: '',
+      title: '',
+      description: ''
+    }
+  },
+  watch: {
+    pricingPlan: {
+      handler(val) {
+        // Update form fields if in edit mode
+        if (this.editMode) {
+          this.selectedPackage = val.packageType;
+
+          this.title = val.title;
+          this.description = val.description;
+          this.features = val.features;
+          this.price = val.price;
+          this.currency = val.currency
+        }
+      },
+      deep: true
+    },
+    features(val) {
+      if (val.length > 5) {
+        this.features.pop();
+      }
+    }
+  },
+  methods: {
+    openDialog() {
+      if (!this.editMode) {
+
+        // Reset form values only if in create mode
+        this.selectedPackage = null;
+        this.packageType = 'monthly';
+        this.selectedCurrency = null;
+        this.price = '';
+        this.title = '';
+        this.description = '';
+        this.features = [];
+      }
+      this.dialog = true;
+    },
+    closeDialog() {
+      this.dialog = false;
+    },
+    async submitForm() {
+
+      const payload = {
+        title: this.title,
+        description: this.description,
+        price: this.price,
+        features: this.features,
+        monthly: this.packageType === 'monthly'
+      };
+      const { valid } = await this.$refs.pricingForm.validate()
+      if (valid) {
+        if (this.editMode) {
+          payload.packageId = this.pricingPlan._id
+          this.loading = true
+          // If in edit mode, add additional logic to update existing pricing plan
+          axios.post(`/influencer/update-influencer-package`, payload)
+            .then(res => {
+              console.log(res.data.package);
+              this.loading = false
+              this.$emit('refresh');
+              // this.closeDialog()
+
+            })
+            .catch(err => {
+              console.error(err);
+              // Handle error
+            })
+        } else {
+          // If in create mode, add logic to create new pricing plan
+          this.loading = true
+          axios.post("/influencer/influencer-package", payload)
+            .then(res => {
+              console.log(res.data);
+              this.$emit('refresh')
+            })
+            .catch(err => {
+              console.error(err);
+              // Handle error
+            })
+        }
+
+        // Close the dialog after form submission
+        this.closeDialog();
+      }
+
+    }
+  }
+};
+</script>

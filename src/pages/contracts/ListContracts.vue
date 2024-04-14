@@ -6,13 +6,8 @@
 
     <v-row justify="end" class="pb-3">
       <v-col cols="3" class="float-right">
-        <v-text-field
-          style="width: 200px"
-          label="Search"
-          append-inner-icon="mdi-magnify"
-          variant="solo-filled"
-          class="float-right"
-        ></v-text-field>
+        <v-text-field style="width: 200px" label="Search" append-inner-icon="mdi-magnify" variant="solo-filled"
+          class="float-right"></v-text-field>
       </v-col>
       <v-col cols="3">
         <dropdown />
@@ -21,27 +16,16 @@
 
     <VCard>
       <!-- SECTION data table -->
-      <VDataTableServer
-        v-model:items-per-page="options.itemsPerPage"
-        v-model:page="options.page"
-        :items="sampleInfluncerData"
-        :items-length="totalUsers"
-        :headers="headers"
-        class=""
-        :loading="isLoading"
-        item-key="key"
-      >
+      <VDataTableServer v-model:items-per-page="options.itemsPerPage" v-model:page="options.page"
+        :items="sampleInfluncerData" :items-length="totalUsers" :headers="headers" class="" :loading="isLoading"
+        item-key="key">
         <!-- Seegments -->
         <!-- <template #item.profilePhoto="{ item }">
           <div class="py-3">fullName</div>
         </template> -->
         <template #item.status="{ item }">
-          <VChip
-            :color="item.status ? 'primary' : 'error'"
-            :class="`text-${item.status ? 'primary' : 'error'}`"
-            size="small"
-            class="font-weight-medium"
-          >
+          <VChip :color="item.status ? 'primary' : 'error'" :class="`text-${item.status ? 'primary' : 'error'}`"
+            size="small" class="font-weight-medium">
             {{ item.status ? "Completed" : "Pending" }}
           </VChip>
         </template>
@@ -49,10 +33,10 @@
         <template #item.dateofAgreement="{ item }">
           <span class="text-sm">
             {{
-              item.dateofAgreement == null
-                ? "Date Not Available"
-                : moment(item.dateofAgreement).format("MMMM Do YYYY")
-            }}
+      item.dateofAgreement == null
+        ? "Date Not Available"
+        : moment(item.dateofAgreement).format("MMMM Do YYYY")
+    }}
           </span>
         </template>
 
@@ -67,13 +51,12 @@
           </div>
         </template>
 
-        <template #item.details="{ item }"
-          ><v-btn elevation="24" size="small">
+        <template #item.details="{ item }"><v-btn elevation="24" size="small">
             DETAILS
             <v-icon>mdi-chevron-down</v-icon>
             <VMenu activator="parent">
               <VList>
-                
+
                 <VListItem @click="sendRequest()">
                   <VListItemTitle>Chat</VListItemTitle>
                 </VListItem>
@@ -95,43 +78,23 @@
           <div class="d-flex justify-end gap-x-6 pa-2 flex-wrap">
             <div class="d-flex align-center gap-x-2 text-sm">
               Rows Per Page:
-              <VSelect
-                v-model="options.itemsPerPage"
-                class="per-page-select text-high-emphasis"
-                variant="plain"
-                density="compact"
-                :items="[10, 20, 25, 50, 100]"
-              />
+              <VSelect v-model="options.itemsPerPage" class="per-page-select text-high-emphasis" variant="plain"
+                density="compact" :items="[10, 20, 25, 50, 100]" />
             </div>
 
             <div class="d-flex gap-x-2 align-center me-2">
-              <VBtn
-                icon="mdi-chevron-left"
-                class="flip-in-rtl"
-                variant="text"
-                density="comfortable"
-                color="default"
-                :disabled="options.page <= 1"
-                @click="options.page <= 1 ? (options.page = 1) : options.page--"
-              />
+              <VBtn icon="mdi-chevron-left" class="flip-in-rtl" variant="text" density="comfortable" color="default"
+                :disabled="options.page <= 1" @click="options.page <= 1 ? (options.page = 1) : options.page--" />
 
-              <VBtn
-                icon="mdi-chevron-right"
-                class="flip-in-rtl"
-                density="comfortable"
-                variant="text"
-                color="default"
-                :disabled="
-                  options.page >= Math.ceil(totalUsers / options.itemsPerPage)
-                "
-                @click="
-                  options.page >= Math.ceil(totalUsers / options.itemsPerPage)
-                    ? (options.page = Math.ceil(
-                        totalUsers / options.itemsPerPage
-                      ))
-                    : options.page++
-                "
-              />
+              <VBtn icon="mdi-chevron-right" class="flip-in-rtl" density="comfortable" variant="text" color="default"
+                :disabled="options.page >= Math.ceil(totalUsers / options.itemsPerPage)
+      " @click="
+      options.page >= Math.ceil(totalUsers / options.itemsPerPage)
+        ? (options.page = Math.ceil(
+          totalUsers / options.itemsPerPage
+        ))
+        : options.page++
+      " />
             </div>
           </div>
         </template>
@@ -144,13 +107,8 @@
 
         <!-- Dialog Content -->
         <VCard class="pa-3">
-          <DialogCloseBtn
-            variant="text"
-            size="small"
-            @click="showModal = false"
-          />
-          <VCardText class="text-center text-h5"
-            >Send Revision Request<br />
+          <DialogCloseBtn variant="text" size="small" @click="showModal = false" />
+          <VCardText class="text-center text-h5">Send Revision Request<br />
             <span class="text-body-2">For File ‘Lorem Ipsum’</span>
           </VCardText>
           <VCardText>
@@ -158,17 +116,10 @@
               <VCol cols="2"></VCol>
               <VCol cols="8">
                 <VCard class="pa-3">
-                  <div
-                    class="me-3 py-1 d-flex align-center justify-space-between"
-                  >
+                  <div class="me-3 py-1 d-flex align-center justify-space-between">
                     <div rounded class="d-flex align-center justifycenter">
                       <div class="bg-darken2">
-                        <v-img
-                          :src="play1"
-                          height="20"
-                          width="20"
-                          alt="John"
-                        ></v-img>
+                        <v-img :src="play1" height="20" width="20" alt="John"></v-img>
                       </div>
                       <div>
                         <h4 class="text-subtitle-1 l-h">File Name</h4>
@@ -180,16 +131,8 @@
                     </div>
                   </div>
                 </VCard>
-                <v-textarea
-                  v-model="text"
-                  label="Comments"
-                  row-height="25"
-                  rows="5"
-                  variant="outlined"
-                  auto-grow
-                  shaped
-                  class="pt-8"
-                ></v-textarea>
+                <v-textarea v-model="text" label="Comments" row-height="25" rows="5" variant="outlined" auto-grow shaped
+                  class="pt-8"></v-textarea>
 
                 <div class="text-center pt-6">
                   <VBtn color="primary mr-4 " @click="sendCampaign">
@@ -205,7 +148,7 @@
           </VCardText>
         </VCard>
       </VDialog>
-      
+
     </VCard>
   </section>
 </template>
@@ -217,6 +160,7 @@ import play1 from "@/assets/images/cards/folder.png";
 import { useUserListStore } from "@/views/apps/user/useUserListStore";
 import { useRouter } from "vue-router";
 import dropdown from "./dropdown.vue";
+import axios from '@axios'
 
 const showModal = ref(false);
 const userListStore = useUserListStore();
@@ -351,6 +295,19 @@ const sampleInfluncerData = [
 
 const router = useRouter();
 const route = useRoute();
+const listContracts = () => {
+  axios
+    .get(`influencer/contracts/list?status=active&sortBy=createdAt`)
+    .then((response) => {
+      console.log("user", response.data);
+
+
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+listContracts()
 const viewDetails = (item) => {
   router.push({ path: `/contract-details/${item.id}` });
 };
@@ -364,9 +321,11 @@ const viewDetails = (item) => {
 .text-capitalize {
   text-transform: capitalize;
 }
+
 .blue-darke {
   background-color: #9155fd;
 }
+
 .user-list-name:not(:hover) {
   color: rgba(var(--v-theme-on-background), var(--v-high-emphasis-opacity));
 }

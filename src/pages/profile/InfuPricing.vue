@@ -1,251 +1,98 @@
 <template>
   <div class="mt-8">
-    <div class="d-flex justify-space-between align-center">
-      <div>CHOOSE YOUR PLAN</div>
-      <div>
-        <v-btn-toggle
-          v-model="toggle"
-          color="primary"
-          variant="outlined"
-          mandatory
-        >
-          <v-btn value="single">Single</v-btn>
-          <v-btn value="monthly">Monthly</v-btn>
-        </v-btn-toggle>
+    <div v-if="mainLoading">
+      <v-card class="mt-4 cursor-pointer selected-card" min-height="400" variant="outlined" color="black"
+        max-width="300">
+        <Loader />
+      </v-card>
+    </div>
+    <div v-else>
+      <div class="d-flex justify-end " v-if="packages.length < 0">
+        <v-btn @click="createPackage">Create Package</v-btn>
       </div>
+
+      <div class="d-flex justify-space-between align-center">
+        <div>Create Your Plan</div>
+
+
+      </div>
+
+      <VRow class="ml-4" v-if="packages.length > 0">
+        <VCol cols="12" md="4" v-for="pkg in packages" :key="pkg">
+          <v-card class="mt-4 cursor-pointer selected-card" min-height="400" variant="outlined" color="black"
+            max-width="300">
+            <v-card-text>
+              <div>
+                <span class="f-18 d-flex justify-space-between selected-card-text">
+                  {{ pkg.title }}
+
+                </span>
+                <div class="my-3">
+                  <span class="font-weight-bold f-24">{{ pkg.currency }}{{ pkg.price }}</span>/Recording
+                </div>
+                <div>{{ pkg.description }}</div>
+                <VList class="card-list my-3 transparent" min-height="200">
+                  <VListItem v-for="benifits in pkg.features" :key="benifits">
+                    <template #prepend>
+                      <VIcon icon="mdi-check-circle" :class="pkg.id != currentPkg ? '' : 'selected-card-text'" />
+                    </template>
+
+                    <VListItemTitle class="text-body-2">{{ benifits }}</VListItemTitle>
+                  </VListItem>
+                </VList>
+              </div>
+            </v-card-text>
+            <v-card-actions>
+              <VBtn @click="editPackage(pkg)" class="ml-2" variant="tonal">
+                Update
+              </VBtn>
+
+            </v-card-actions>
+          </v-card>
+        </VCol>
+      </VRow>
+      <VRow class="mt-4" v-else>
+        <VCol cols="12">
+          <v-card>
+
+            <v-card-text>
+              <div>
+                <span class="f-18 d-flex justify-center">
+
+                  No plans are available
+                </span>
+
+
+
+              </div>
+            </v-card-text>
+          </v-card>
+        </VCol>
+      </VRow>
     </div>
 
-    <VRow class="ml-4">
-      <VCol cols="12" md="4" v-for="pkg in selectedPkg" :key="pkg">
-        <v-card
-          class="mt-4 cursor-pointer"
-          :class="pkg.id != currentPkg ? 'selected-card' : 'pricing-card'"
-          min-height="400"
-          variant="outlined"
-          color="black"
-          max-width="300"
-          v-model="currentPkg"
-          @click="selectPkg(pkg.id)"
-        >
-          <v-card-text>
-            <div>
-              <span
-                class="f-18 d-flex justify-space-between"
-                :class="pkg.id != currentPkg ? '' : 'selected-card-text'"
-              >
-                {{ pkg.name }}
-                <button @click="bioEditDialog" class="ml-2">
-                  <v-icon class="text-subtitle-1">mdi-pencil</v-icon>
-                </button>
-              </span>
-              <div class="my-3">
-                <span class="font-weight-bold f-24">{{ pkg.price }}</span
-                >/Recording
-              </div>
-              <div>{{ pkg.description }}</div>
-              <VList class="card-list my-3 transparent">
-                <VListItem v-for="benifits in pkg.benifits" :key="benifits">
-                  <template #prepend>
-                    <VIcon
-                      icon="mdi-check-circle"
-                      :class="pkg.id != currentPkg ? '' : 'selected-card-text'"
-                    />
-                  </template>
-
-                  <VListItemTitle class="text-body-2">
-                    {{ benifits.name }}
-                  </VListItemTitle>
-                </VListItem>
-              </VList>
-            </div>
-            <!-- <v-btn
-              :class="pkg.id != currentPkg ? 'selected-card' : 'pricing-card'"
-              class="d-none"
-              size="x-large"
-              >Continue</v-btn
-            > -->
-            <!-- <RouterLink :to="{ name: 'hiring-influencer' }">
-                            <VBtn :class="pkg.id != currentPkg ? 'selected-card' : 'pricing-card'"
-                                class="large-1 d-none">
-                                Continue
-                            </VBtn>
-                        </RouterLink> -->
-          </v-card-text>
-        </v-card>
-      </VCol>
-    </VRow> <pricingEditDialog v-model:isDialogVisible="bioEditDialogVisible" />
+    <pricingEditDialog ref="pricing" :edit-mode="editMode" :pricing-plan="selectedPricingPlan"
+      @refresh="listPackages()" />
   </div>
 </template>
 
 <script>
-import pricingEditDialog from "./pricingEditDialog.vue"
+import pricingEditDialog from "./pricingEditDialog.vue";
+import axios from "@axios";
+import Loader from "@/components/Loader.vue";
 export default {
-    components:{pricingEditDialog},
+  components: { pricingEditDialog, Loader },
   data() {
     return {
       toggle: "single",
-      bioEditDialogVisible:false,
-      singlePackages: [
-        {
-          id: 0,
-          name: "BASIC",
-          price: "$20",
-          description: "For new businesses that want to boost their sales",
-          benifits: [
-            {
-              name: "Good Engagement",
-              isAvailable: true,
-            },
-            {
-              name: "Post and Story",
-              isAvailable: true,
-            },
-            {
-              name: "Instagram",
-              isAvailable: true,
-            },
-            {
-              name: "Usage Rights",
-              isAvailable: true,
-            },
-          ],
-        },
-        {
-          id: 1,
-          name: "POPULAR",
-          price: "$75",
-          description: "For new businesses that want to boost their sales",
-          benifits: [
-            {
-              name: "Good Engagement",
-              isAvailable: true,
-            },
-            {
-              name: "Post and Story",
-              isAvailable: true,
-            },
-            {
-              name: "Instagram",
-              isAvailable: true,
-            },
-            {
-              name: "Usage Rights",
-              isAvailable: true,
-            },
-          ],
-        },
-        {
-          id: 2,
-          name: "ENTERPRISE",
-          price: "$100",
-          description: "For new businesses that want to boost their sales",
-          benifits: [
-            {
-              name: "Good Engagement",
-              isAvailable: true,
-            },
-            {
-              name: "Post and Story",
-              isAvailable: true,
-            },
-            {
-              name: "Instagram",
-              isAvailable: true,
-            },
-            {
-              name: "Usage Rights",
-              isAvailable: true,
-            },
-          ],
-        },
-      ],
-      monthlyPackages: [
-        {
-          id: 0,
-          name: "BASIC",
-          price: "$75",
-          description: "For new businesses that want to boost their sales",
-          benifits: [
-            {
-              name: "Good Engagement",
-              isAvailable: true,
-            },
-            {
-              name: "10 Recordings Per Month",
-              isAvailable: true,
-            },
-            {
-              name: "Post and Story",
-              isAvailable: true,
-            },
-            {
-              name: "Instagram",
-              isAvailable: true,
-            },
-            {
-              name: "Usage Rights",
-              isAvailable: true,
-            },
-          ],
-        },
-        {
-          id: 1,
-          name: "POPULAR",
-          price: "$100",
-          description: "For new businesses that want to boost their sales",
-          benifits: [
-            {
-              name: "Good Engagement",
-              isAvailable: true,
-            },
-            {
-              name: "10 Recordings Per Month",
-              isAvailable: true,
-            },
-            {
-              name: "Post and Story",
-              isAvailable: true,
-            },
-            {
-              name: "Instagram",
-              isAvailable: true,
-            },
-            {
-              name: "Usage Rights",
-              isAvailable: true,
-            },
-          ],
-        },
-        {
-          id: 2,
-          name: "ENTERPRISE",
-          price: "$150",
-          description: "For new businesses that want to boost their sales",
-          benifits: [
-            {
-              name: "Good Engagement",
-              isAvailable: true,
-            },
-            {
-              name: "10 Recordings Per Month",
-              isAvailable: true,
-            },
-            {
-              name: "Post and Story",
-              isAvailable: true,
-            },
-            {
-              name: "Instagram",
-              isAvailable: true,
-            },
-            {
-              name: "Usage Rights",
-              isAvailable: true,
-            },
-          ],
-        },
-      ],
+      bioEditDialogVisible: false,
+      singlePackages: [],
+      packages: [],
       currentPkg: 0,
+      editMode: false,
+      selectedPricingPlan: null,
+      mainLoading: false,
+
     };
   },
   methods: {
@@ -253,25 +100,65 @@ export default {
       this.currentPkg = pkg;
       console.log(this.currentPkg);
     },
-    bioEditDialog() {
-      this.bioEditDialogVisible = true;
+    editPackage(pkg) {
+      this.editMode = true;
+      this.selectedPricingPlan = pkg;
+      this.$refs.pricing.openDialog();
     },
+    createPackage() {
+
+
+
+      this.editMode = false;
+      this.$refs.pricing.openDialog();
+    },
+    updatePricingProp(pricing) {
+      this.selectedPricingPlan = pricing;
+    },
+    listPackages() {
+      const influencer = JSON.parse(localStorage.getItem("userData"));
+
+      const influencerId = influencer.id;
+      this.mainLoading = true
+      axios
+        .get(`influencer/packages/${influencerId}`)
+        .then(response => {
+          console.log("user", response.data.data);
+          this.packages = response.data.data
+          this.mainLoading = false
+
+          // packages.forEach(item => {
+          //   if (item.monthly === false) {
+          //     this.singlePackages.push(item);
+          //   } else if (item.monthly === true) {
+          //     this.monthlyPackages.push(item);
+          //   }
+          // });
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
   },
 
   computed: {
-    selectedPkg() {
-      let pkg = this.singlePackages;
-      if (this.toggle == "single") {
-        pkg = this.singlePackages;
-      } else {
-        pkg = this.monthlyPackages;
-      }
-      return pkg;
-    },
+    // selectedPkg() {
+    //   let pkg = this.singlePackages;
+    //   if (this.toggle == "single") {
+    //     pkg = this.singlePackages;
+    //   } else {
+    //     pkg = this.monthlyPackages;
+    //   }
+    //   return pkg;
+    // }
     // currentPkg() {
     //   return this.singlePackages[0].id;
     // },
   },
+
+  mounted() {
+    this.listPackages();
+  }
 };
 </script>
 

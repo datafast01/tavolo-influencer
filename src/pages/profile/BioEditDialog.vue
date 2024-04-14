@@ -37,32 +37,17 @@ import done from "@/assets/images/cards/done2.png";
 export default {
   data: () => ({
     done: done,
-    ratingw: 0.5,
-    ratingw1: 0.5,
-    ratingw2: 0.5,
+
   }),
-  computed: {
-    computedTotalScore: function () {
-      // Calculate the sum of the first two ratings
-      let totalScore = (this.ratingw + this.ratingw1 + this.ratingw2) / 3;
-      return totalScore.toFixed(1);
-    },
-  },
+
 };
 </script>
 
 <template>
-  <VDialog
-    :width="$vuetify.display.smAndDown ? 'auto' : 860"
-    :model-value="props.isDialogVisible"
-    @update:model-value="(val) => $emit('update:isDialogVisible', val)"
-  >
+  <VDialog :width="$vuetify.display.smAndDown ? 'auto' : 860" :model-value="props.isDialogVisible"
+    @update:model-value="(val) => $emit('update:isDialogVisible', val)">
     <VCard class="pa-5 pa-sm-8">
-      <DialogCloseBtn
-        variant="text"
-        size="small"
-        @click="$emit('update:isDialogVisible', false)"
-      />
+      <DialogCloseBtn variant="text" size="small" @click="$emit('update:isDialogVisible', false)" />
 
       <VCardText class="text-h5">
         <VForm class="mt-6">
@@ -72,54 +57,33 @@ export default {
             </VCol>
             <VCol cols="12">
               <label class="text-body-2" for="">ABOUT</label>
-              <VTextField
-                Value="Lorem Ipsum"
-                :rules="[requiredValidator, alphaValidator, isNameValid]"
-              />
+              <VTextField Value="Lorem Ipsum" :rules="[requiredValidator, alphaValidator, isNameValid]" />
             </VCol>
 
             <VCol cols="12">
               <label class="text-body-2" for="">PROFESSION</label>
-              <VTextField
-                Value="Lorem Ipsum"
-                :rules="[requiredValidator, alphaValidator, isNameValid]"
-              />
+              <VTextField Value="Lorem Ipsum" :rules="[requiredValidator, alphaValidator, isNameValid]" />
             </VCol>
 
             <VCol cols="12">
               <label class="text-body-2" for="">EDUCATION</label>
-              <VTextField
-                Value="Lorem Ipsum"
-                :rules="[requiredValidator, alphaValidator, isNameValid]"
-              />
+              <VTextField Value="Lorem Ipsum" :rules="[requiredValidator, alphaValidator, isNameValid]" />
             </VCol>
             <VCol cols="12">
               <label class="text-body-2" for="">EXPERIENCE</label>
-              <VTextField
-                Value="Lorem Ipsum"
-                :rules="[requiredValidator, alphaValidator, isNameValid]"
-              />
+              <VTextField Value="Lorem Ipsum" :rules="[requiredValidator, alphaValidator, isNameValid]" />
             </VCol>
             <VCol cols="12">
               <label class="text-body-2" for="">INTERESTS</label>
-              <VTextField
-                Value="Lorem Ipsum"
-                :rules="[requiredValidator, alphaValidator, isNameValid]"
-              />
+              <VTextField Value="Lorem Ipsum" :rules="[requiredValidator, alphaValidator, isNameValid]" />
             </VCol>
             <VCol cols="12">
               <label class="text-body-2" for="">ACHIEVEMENTS</label>
-              <VTextField
-                Value="Lorem Ipsum"
-                :rules="[requiredValidator, alphaValidator, isNameValid]"
-              />
+              <VTextField Value="Lorem Ipsum" :rules="[requiredValidator, alphaValidator, isNameValid]" />
             </VCol>
             <VCol cols="12">
               <label class="text-body-2" for="">SOCIAL ACCOUNTS</label>
-              <VTextField
-                Value="Lorem Ipsum"
-                :rules="[requiredValidator, alphaValidator, isNameValid]"
-              />
+              <VTextField Value="Lorem Ipsum" :rules="[requiredValidator, alphaValidator, isNameValid]" />
             </VCol>
           </VRow>
         </VForm>

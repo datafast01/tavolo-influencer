@@ -1,24 +1,32 @@
 <template>
   <div>
+    <div v-if="loading">
+      <Loader />
 
-    <VCard variant="tonal" class="mt-4">
+    </div>
+
+    <VCard variant="tonal" class="mt-4" v-else>
       <VCardText>
         <div class="d-flex justify-space-between align-center">
+
           <div class="d-flex align-center">
             <div>
               <div class="relative" style="position: relative">
-                <div v-if="imageData.length > 0">
-                  <v-avatar :image="imageData" size="180" class="custom-avatar"></v-avatar>
+                <div v-if="userProfile.avatar">
+                  <v-avatar :image="'http://16.171.214.197:8081/' + userProfile.avatar" size="180"
+                    class="custom-avatar"></v-avatar>
                 </div>
                 <div v-else>
-                  <!-- Show default image or placeholder if no image uploaded -->
+
                   <v-avatar size="180" class="custom-avatar">
                     <img :src="avatar" alt="Default Image" />
                   </v-avatar>
                 </div>
-                <div class="edit-profile" @click="openFileInput">
+                <!-- <div class="edit-profile" @click="openFileInput">
                   <v-icon>mdi-pencil</v-icon>
-                </div>
+                </div> -->
+                <v-btn class="edit-profile" @click="openFileInput" icon="mdi-pencil" variant="outlined"
+                  :loading="profileImageLoader"></v-btn>
               </div>
 
               <div class="file-upload-form">
@@ -27,8 +35,9 @@
             </div>
 
             <div class="d-flex flex-column">
+
               <span>
-                <span class="f-22"> Name Surname </span>
+                <span class="f-22"> {{ userProfile.firstName }} {{ userProfile.lastName }} </span>
 
                 <img :src="verified" alt="" srcset="" />
               </span>
@@ -47,23 +56,25 @@
           </div>
         </div>
         <v-tabs v-model="tab" color="deep-purple-accent-4" align-tabs="space-between">
-          <v-tab value="1">Bio</v-tab>
-          <v-tab value="2">Projects</v-tab>
+          <v-tab value="0">Bio</v-tab>
+          <v-tab value="1">Projects</v-tab>
 
-          <v-tab value="3">Pricing</v-tab>
+          <v-tab value="2">Pricing</v-tab>
 
-          <v-tab value="4">Testimonials</v-tab>
+          <v-tab value="3">Testimonials</v-tab>
         </v-tabs>
         <v-window v-model="tab">
-          <v-window-item value="1">
+          <v-window-item value="0">
             <InfluencerBio :details="details" />
           </v-window-item>
-          <v-window-item value="2"> Projects component </v-window-item>
+          <v-window-item value="1">
+            <Projects />
+          </v-window-item>
 
-          <v-window-item value="3">
+          <v-window-item value="2">
             <InfuPricing />
           </v-window-item>
-          <v-window-item value="4">
+          <v-window-item value="3">
             <Testemonials />
           </v-window-item>
         </v-window>
@@ -72,8 +83,8 @@
   </div>
 </template>
 
-<script setup>
-import axios from "@axios";
+<script>
+
 
 import { ref, watch } from "vue";
 import avatar from "@/assets/images/avatars/avatar-1.png";
@@ -84,56 +95,80 @@ import InfluencerBio from "./InfuBio.vue";
 import InfuPricing from "./InfuPricing.vue";
 
 import Testemonials from "./Testemonials.vue";
+import Projects from "./Projects.vue";
+import axios from '@axios'
+import store from "@/store/index.js";
+import { useToast } from "vue-toastification";
 
 
 
-const imageData = ref("");
-const tab = ref(null)
-const location = 'California';
+export default {
+  components: { InfluencerBio, InfuPricing, Testemonials, Projects },
+  data() {
+    return {
+      tab: 0,
+      location: 'California',
+      toast: useToast(),
+      avatar: avatar,
+      profileImageLoader: false
 
-const previewImage = (event) => {
-  const input = event.target;
-  if (input.files && input.files[0]) {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      imageData.value = e.target.result;
-      // Store the image data in local storage
-      localStorage.setItem("imageData", e.target.result);
-    };
-    reader.readAsDataURL(input.files[0]);
+    }
+  },
+  computed: {
+    userProfile() {
+      return store.getters.userProfile;
+    },
+    loading() {
+      return store.getters.profileLoading
+    }
+  },
+  methods: {
+    openFileInput() {
+      // Programmatically trigger the click event of the file input
+      const fileInput = document.querySelector('input[type="file"]');
+      fileInput.click();
+    },
+    previewImage(event) {
+      const input = event.target;
+      if (input.files && input.files[0]) {
+
+        let data = new FormData();
+        data.append("file", input.files[0]);
+        this.profileImageLoader = true
+        axios
+          .post(`update-profile-image`, data)
+          .then(response => {
+            console.log("user", response.data.avatar);
+            this.profileImageLoader = false
+            this.userProfile.avatar = response.data.avatar
+            this.toast.success("Profile Image Changed Successfully!");
+
+          })
+          .catch(err => {
+            console.log(err);
+            this.profileImageLoader = false
+          });
+
+      }
+    },
+    isEmpty(obj) {
+      return Object.keys(obj).length === 0;
+    }
+  },
+  mounted() {
+
+    if (this.isEmpty(this.userProfile)) {
+
+      store.dispatch("getProfile");
+
+    }
   }
-};
 
-const openFileInput = () => {
-  // Programmatically trigger the click event of the file input
-  const fileInput = document.querySelector('input[type="file"]');
-  fileInput.click();
-};
-
-// Retrieve the image data from local storage when the component is mounted
-onMounted(() => {
-  const storedImageData = localStorage.getItem("imageData");
-  if (storedImageData) {
-    imageData.value = storedImageData;
-  }
-});
-
-const getUserProfile = () => {
-  // console.log("submit form", ApiService);
-  axios
-    .get(`influencer/content`)
-    .then((response) => {
-      console.log("user", response.data);
+}
 
 
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-};
 
 
-getUserProfile()
 
 </script>
 

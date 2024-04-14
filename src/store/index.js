@@ -5,14 +5,16 @@ import Vuex from "vuex";
 
 
 import themeStore from "./themeStore";
+import profileStore from './profileStore';
+
 
 
 
 export default new Vuex.Store({
   modules: {
-   
-  
-   themeStore
+    profileStore,
+
+    themeStore
   },
   strict: process.env.DEV,
 });

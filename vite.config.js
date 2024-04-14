@@ -64,7 +64,7 @@ export default defineConfig({
     AutoImport({
       eslintrc: {
         enabled: false,
-        
+
       },
       imports: ['vue', 'vue-router', '@vueuse/core', '@vueuse/math', 'vue-i18n', 'pinia'],
       vueTemplate: true,
@@ -95,9 +95,9 @@ export default defineConfig({
       'vue3-quill': 'vue3-quill',
       'vuex': 'vuex',
       '@tofandel/vue-unlayer': '@tofandel/vue-unlayer'
-      
-   
-     
+
+
+
 
     },
   },

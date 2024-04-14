@@ -1,8 +1,6 @@
 <template>
   <div>
-    <VSnackbar v-model="show" :timeout="2000" :color="color">
-      {{ snkMsg }}
-    </VSnackbar>
+
     <!-- Title and Logo -->
     <div class="auth-logo d-flex align-start gap-x-3">
       <!-- <VNodeRenderer :nodes="logo" /> -->
@@ -14,25 +12,18 @@
     </div>
 
     <VRow no-gutters class="auth-wrapper">
-      <VCol
-        lg="8"
-        class="d-none d-lg-flex align-center justify-center position-relative"
-      >
+      <VCol lg="8" class="d-none d-lg-flex align-center justify-center position-relative">
         <VImg max-width="768px" :src="authThemeImg" class="auth-illustration" />
         <VImg :width="276" :src="tree" class="auth-footer-start-tree" />
         <VImg class="auth-footer-mask" :src="authThemeMask" />
       </VCol>
 
-      <VCol
-        cols="12"
-        lg="4"
-        class="auth-card-v2 d-flex align-center justify-center"
-      >
+      <VCol cols="12" lg="4" class="auth-card-v2 d-flex align-center justify-center">
         <VCard flat :max-width="500" class="mt-12 mt-sm-0 pa-4">
           <VCardText>
-            <h5 class="text-h5 mb-1">Welcome to Tavolo! 👋🏻</h5>
+            <h5 class="text-h5 mb-1">Welcome to Tavolo Influencer 👋🏻</h5>
             <p class="mb-0">
-              Please sign-in to your account and start the adventure
+              Welcome back to Tavolo! Ready to showcase your talent and connect with clients through captivating videos?
             </p>
           </VCardText>
 
@@ -41,39 +32,22 @@
               <VRow>
                 <!-- email -->
                 <VCol cols="12">
-                  <VTextField
-                    v-model="email"
-                    label="Email"
-                    type="email"
-                    :rules="[requiredValidator, emailValidator]"
-                    :error-messages="errors.email"
-                  />
+                  <VTextField v-model="email" label="Email" type="email" :rules="[requiredValidator, emailValidator]"
+                    :error-messages="errors.email" />
                 </VCol>
 
                 <!-- password -->
                 <VCol cols="12">
-                  <VTextField
-                    v-model="password"
-                    label="Password"
-                    :rules="[requiredValidator]"
-                    :type="isPasswordVisible ? 'text' : 'password'"
-                    :error-messages="errors.password"
-                    :append-inner-icon="
-                      isPasswordVisible
-                        ? 'mdi-eye-off-outline'
-                        : 'mdi-eye-outline'
-                    "
-                    @click:append-inner="isPasswordVisible = !isPasswordVisible"
-                  />
+                  <VTextField v-model="password" label="Password" :rules="[requiredValidator]"
+                    :type="isPasswordVisible ? 'text' : 'password'" :error-messages="errors.password"
+                    :append-inner-icon="isPasswordVisible
+                      ? 'mdi-eye-off-outline'
+                      : 'mdi-eye-outline'
+                      " @click:append-inner="isPasswordVisible = !isPasswordVisible" />
 
-                  <div
-                    class="d-flex align-center flex-wrap justify-space-between mt-1 mb-4"
-                  >
+                  <div class="d-flex align-center flex-wrap justify-space-between mt-1 mb-4">
                     <VCheckbox v-model="rememberMe" label="Remember me" />
-                    <RouterLink
-                      class="text-primary ms-2 mb-1"
-                      :to="{ name: 'forgot-password' }"
-                    >
+                    <RouterLink class="text-primary ms-2 mb-1" :to="{ name: 'forgot-password' }">
                       Forgot Password?
                     </RouterLink>
                   </div>
@@ -84,10 +58,7 @@
                 <!-- create account -->
                 <VCol cols="12" class="text-center">
                   <span>New on our platform?</span>
-                  <RouterLink
-                    class="text-primary ms-2"
-                    :to="{ name: 'register' }"
-                  >
+                  <RouterLink class="text-primary ms-2" :to="{ name: 'register' }">
                     Create an account
                   </RouterLink>
                 </VCol>
@@ -99,11 +70,7 @@
     </VRow>
   </div>
   <v-dialog v-model="dialog" width="auto">
-    <v-card
-      width="500"
-      height="400"
-      class="d-flex align-center text-center justify-center"
-    >
+    <v-card width="500" height="400" class="d-flex align-center text-center justify-center">
       <div>
         <v-card-title> Welcome to Tavolo! </v-card-title>
         <v-card-subtitle class="my-3">
@@ -143,7 +110,10 @@ import { emailValidator, requiredValidator } from "@validators";
 import { ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { VForm } from "vuetify/components/VForm";
+import { useToast } from "vue-toastification";
 
+
+const toast = useToast()
 const isPasswordVisible = ref(false);
 const authThemeImg = useGenerateImageVariant(
   authV2LoginIllustrationLight,
@@ -168,9 +138,7 @@ const password = ref("");
 const rememberMe = ref(false);
 const loading = ref(false);
 
-let show = ref(false);
-let snkMsg = ref("");
-let color = ref("#9575CD");
+
 let dialog = ref(false);
 let userType = ref(null);
 const login = () => {
@@ -179,18 +147,18 @@ const login = () => {
     .post("/login", {
       email: email.value,
       password: password.value,
+      role: 'influencer'
     })
     .then((res) => {
       // console.log(res.data);
-      show.value = true;
-      snkMsg.value = "Successfully logged in";
+      toast.success("User Loggedin Successfully!", { timeout: 2010, });
       const userData = res.data;
       loading.value = false;
       // localStorage.setItem('userAbilities', JSON.stringify(userAbilities))
 
       localStorage.setItem("userData", JSON.stringify(userData));
       localStorage.setItem("token", userData.token);
-      store.dispatch("getPackageHistory");
+
       store.dispatch("getProfile");
 
       // localStorage.setItem('accessToken', JSON.stringify(accessToken))
@@ -202,12 +170,9 @@ const login = () => {
     })
     .catch((err) => {
       loading.value = false;
-      console.error(err);
-      show.value = true;
+      toast.error(err.response.data.message, { timeout: 2010, });
 
-      snkMsg.value = err.response.data.message;
 
-      color.value = "error";
     });
 };
 
@@ -223,6 +188,7 @@ const checkUser = (type) => {
 </script>
 <style lang="scss" scoped>
 @use "@core/scss/template/pages/page-auth.scss";
+
 .v-img__img,
 .v-img__picture,
 .v-img__gradient,

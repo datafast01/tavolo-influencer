@@ -1,8 +1,6 @@
 <template>
   <div>
-    <VSnackbar v-model="show" :timeout="2000" :color="color">
-      {{ snkMsg }}
-    </VSnackbar>
+
     <!-- Title and Logo -->
     <div class="auth-logo d-flex align-start gap-x-3">
       <VNodeRenderer :nodes="themeConfig.app.logo" />
@@ -27,8 +25,9 @@
       <VCol cols="12" lg="4" class="auth-card-v2 d-flex align-center justify-center">
         <VCard flat :max-width="500" class="mt-12 mt-sm-0 pa-4">
           <VCardText>
-            <h5 class="text-h5 mb-1">Adventure starts here 🚀</h5>
-            <p class="mb-0">Make your resturant management easy and fun!</p>
+            <h5 class="text-h5 mb-1">Join Tavolo - Your Gateway to Freelance Success 🚀</h5>
+            <p class="mb-0">At Tavolo, we empower influencers to monetize their content and attract clients through
+              Instagram videos.</p>
           </VCardText>
 
           <VCardText>
@@ -59,18 +58,18 @@
                 <VCol cols="12">
                   <VTextField v-model="password" :rules="[requiredValidator]" label="Password"
                     :type="isPasswordVisible ? 'text' : 'password'" :append-inner-icon="isPasswordVisible
-      ? 'mdi-eye-off-outline'
-      : 'mdi-eye-outline'
-      " @click:append-inner="isPasswordVisible = !isPasswordVisible" />
+                      ? 'mdi-eye-off-outline'
+                      : 'mdi-eye-outline'
+                      " @click:append-inner="isPasswordVisible = !isPasswordVisible" />
                 </VCol>
                 <VCol cols="12">
                   <VTextField v-model="confirmPassword" :rules="[requiredValidator]" label="Confirm Password"
                     :type="isConfirmPasswordVisible ? 'text' : 'password'" :append-inner-icon="isConfirmPasswordVisible
-      ? 'mdi-eye-off-outline'
-      : 'mdi-eye-outline'
-      " @click:append-inner="
-      isConfirmPasswordVisible = !isConfirmPasswordVisible
-      " />
+                      ? 'mdi-eye-off-outline'
+                      : 'mdi-eye-outline'
+                      " @click:append-inner="
+                        isConfirmPasswordVisible = !isConfirmPasswordVisible
+                        " />
                 </VCol>
 
                 <VCol cols="12">
@@ -111,7 +110,8 @@ import { useGenerateImageVariant } from "@core/composable/useGenerateImageVarian
 import { VNodeRenderer } from "@layouts/components/VNodeRenderer";
 import { themeConfig } from "@themeConfig";
 import { emailValidator, requiredValidator } from "@validators";
-
+import { useToast } from "vue-toastification";
+const toast = useToast()
 const refVForm = ref();
 const firstName = ref("");
 const lastName = ref("");
@@ -123,9 +123,7 @@ const confirmPassword = ref("");
 const socialMediaUserName = ref("")
 const loading = ref(false)
 
-let show = ref(false);
-let snkMsg = ref("");
-let color = ref("#9575CD");
+
 // Router
 // const route = useRoute()
 const router = useRouter();
@@ -157,9 +155,9 @@ const register = () => {
     })
     .then((res) => {
       // console.log(res, "here is the response");
-      show.value = true;
-      snkMsg.value = "User registred successfully!";
+
       console.log(res)
+      toast.success("User Registerted Successfully!", { timeout: 2010, });
       loading.value = false
 
       // const { accessToken, userData, userAbilities } = r.data
@@ -179,13 +177,14 @@ const register = () => {
       loading.value = false
 
       console.error(err);
-      show.value = true;
+
       if (err.response.status == 400) {
-        snkMsg.value = err.response.data.message;
+
+        toast.error(err.response.data.message, { timeout: 2010, });
       } else {
-        snkMsg.value = "Something went wrong";
+        toast.error("Something Went Wrong", { timeout: 2010, });
       }
-      color.value = "error";
+
     });
 };
 let userType = ref(null);
