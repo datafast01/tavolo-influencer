@@ -13,7 +13,7 @@
             <div>
               <div class="relative" style="position: relative">
                 <div v-if="userProfile.avatar">
-                  <v-avatar :image="'https://16.171.214.197:8081/' + userProfile.avatar" size="180"
+                  <v-avatar :image="'http://16.171.214.197:8081/' + userProfile.avatar" size="180"
                     class="custom-avatar"></v-avatar>
                 </div>
                 <div v-else>
