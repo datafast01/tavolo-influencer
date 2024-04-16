@@ -8,18 +8,7 @@
             <v-col cols="12" class="text-center">
               <span class="text-h5">{{ editMode ? 'Edit' : 'Create' }} your pricing plan</span>
             </v-col>
-            <!-- <VCol cols="4">
-              <v-select variant="solo-filled" :items="pacaketypes" item-title="name" item-value="value"
-                v-model="selectedPackage" dense label="Select package type">
-              </v-select>
-            </VCol>
-            <VCol cols="8">
-              <v-btn-toggle class="w-100" style="height: 55px" v-model="packageType" color="primary" variant="outlined"
-                mandatory>
-                <v-btn class="w-50" value="single">Single</v-btn>
-                <v-btn class="w-50" value="monthly">Monthly</v-btn>
-              </v-btn-toggle>
-            </VCol> -->
+
 
             <VCol cols="12" class="mt-3">
               <VTextField v-model="title" label="Title" :rules="[requiredValidator]" />
