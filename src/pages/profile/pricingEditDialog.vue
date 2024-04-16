@@ -4,7 +4,7 @@
       <v-card-text class="text-h5">
         <v-form class="mt-0" ref="pricingForm">
           <v-row>
-            {{ editMode }}
+
             <v-col cols="12" class="text-center">
               <span class="text-h5">{{ editMode ? 'Edit' : 'Create' }} your pricing plan</span>
             </v-col>

@@ -95,13 +95,13 @@
     </div>
     <div class="my-8">
       <div class="d-flex ">
-        <span class="ml-2"> Intrests</span>
+        <span class="ml-2"> interests</span>
 
       </div>
       <v-card class="mt-4" elevation="16">
-        <v-textarea v-if="detailsActions" v-model="details.intrests"></v-textarea>
+        <v-textarea v-if="detailsActions" v-model="details.interests"></v-textarea>
         <v-card-text v-else>
-          {{ details.intrests }}
+          {{ details.interests }}
         </v-card-text>
 
       </v-card>
@@ -152,7 +152,7 @@ export default {
         profession: '',
         education: '',
         achievements: '',
-        intrests: '',
+        interests: '',
         experience: ''
 
 
@@ -177,7 +177,7 @@ export default {
           experience: this.details.experience,
           education: this.details.education,
           profession: this.details.profession,
-          intrests: this.details.intrests,
+          interests: this.details.interests,
           achievements: this.details.achievements,
 
         })
@@ -210,7 +210,7 @@ export default {
               profession: '',
               education: '',
               achievements: '',
-              intrests: '',
+              interests: '',
               experience: ''
 
 

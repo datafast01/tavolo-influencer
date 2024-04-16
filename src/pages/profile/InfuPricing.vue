@@ -7,7 +7,7 @@
       </v-card>
     </div>
     <div v-else>
-      <div class="d-flex justify-end " v-if="packages.length < 0">
+      <div class="d-flex justify-end " v-if="packages.length == 0">
         <v-btn @click="createPackage">Create Package</v-btn>
       </div>
 
