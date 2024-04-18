@@ -16,9 +16,8 @@
 
     <VCard>
       <!-- SECTION data table -->
-      <VDataTableServer v-model:items-per-page="options.itemsPerPage" v-model:page="options.page"
-        :items="sampleInfluncerData" :items-length="totalUsers" :headers="headers" class="" :loading="isLoading"
-        item-key="key">
+      <VDataTableServer v-model:items-per-page="options.itemsPerPage" v-model:page="options.page" :items="contracts"
+        :items-length="totalUsers" :headers="headers" class="" :loading="isLoading" item-key="key">
         <!-- Seegments -->
         <!-- <template #item.profilePhoto="{ item }">
           <div class="py-3">fullName</div>
@@ -33,10 +32,10 @@
         <template #item.dateofAgreement="{ item }">
           <span class="text-sm">
             {{
-      item.dateofAgreement == null
-        ? "Date Not Available"
-        : moment(item.dateofAgreement).format("MMMM Do YYYY")
-    }}
+              item.dateofAgreement == null
+                ? "Date Not Available"
+                : moment(item.dateofAgreement).format("MMMM Do YYYY")
+            }}
           </span>
         </template>
 
@@ -88,13 +87,13 @@
 
               <VBtn icon="mdi-chevron-right" class="flip-in-rtl" density="comfortable" variant="text" color="default"
                 :disabled="options.page >= Math.ceil(totalUsers / options.itemsPerPage)
-      " @click="
-      options.page >= Math.ceil(totalUsers / options.itemsPerPage)
-        ? (options.page = Math.ceil(
-          totalUsers / options.itemsPerPage
-        ))
-        : options.page++
-      " />
+                  " @click="
+                    options.page >= Math.ceil(totalUsers / options.itemsPerPage)
+                      ? (options.page = Math.ceil(
+                        totalUsers / options.itemsPerPage
+                      ))
+                      : options.page++
+                    " />
             </div>
           </div>
         </template>
@@ -223,74 +222,8 @@ const headers = [
   },
 ];
 
-const sampleInfluncerData = [
-  {
-    id: 0,
-    img: "",
-    influencerName: "Lorem Ipsum",
-    socialMediaUsername: "Lorem Ipsum",
-    contractTitle: "Lorem Ipsum",
-    dateofAgreement: "2023-09-28",
-    paymentPlan: "Popular",
-    status: true,
-    details: "",
-    pricing: "$45/Recording",
-  },
-  {
-    id: 1,
-    img: "",
-    influencerName: "Lorem Ipsum",
-    socialMediaUsername: "Lorem Ipsum",
-    contractTitle: "Lorem Ipsum",
-    dateofAgreement: "2023-09-28",
-    paymentPlan: "Popular",
-    status: false,
-    details: "",
-    pricing: "$45/Recording",
-  },
-  {
-    id: 2,
-    img: "",
-    influencerName: "Lorem Ipsum",
-    socialMediaUsername: "Lorem Ipsum",
-    contractTitle: "Lorem Ipsum",
-    dateofAgreement: "2023-09-28",
-    paymentPlan: "Popular",
-    status: "4",
-    details: "",
-    pricing: "$45/Recording",
-  },
-  {
-    id: 3,
-    img: "",
-    influencerName: "Lorem Ipsum",
-    socialMediaUsername: "Lorem Ipsum",
-    contractTitle: "Lorem Ipsum",
-    dateofAgreement: "2023-09-28",
-    paymentPlan: "Popular",
-    status: "4",
-    details: "",
-    pricing: "$45/Recording",
-  },
-  {
-    id: 4,
-    img: "",
-    influencerName: "Lorem Ipsum",
-    socialMediaUsername: "Lorem Ipsum",
-    contractTitle: "Lorem Ipsum",
-    dateofAgreement: "2023-09-28",
-    paymentPlan: "Popular",
-    status: "4",
-    details: "",
-    pricing: "$45/Recording",
-  },
-  {
-    id: 5,
-    contractTitle: "Lorem Ipsum",
-    status: "4",
-    details: "",
-    pricing: "$45/Recording",
-  },
+const contracts = [
+
 ];
 
 const router = useRouter();
@@ -300,7 +233,7 @@ const listContracts = () => {
     .get(`influencer/contracts/list?status=active&sortBy=createdAt`)
     .then((response) => {
       console.log("user", response.data);
-
+      contracts.value = response.data
 
     })
     .catch((err) => {

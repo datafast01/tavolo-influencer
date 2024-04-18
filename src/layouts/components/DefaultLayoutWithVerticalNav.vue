@@ -8,12 +8,16 @@ import NavBarNotifications from "@/layouts/components/NavBarNotifications.vue";
 import NavbarThemeSwitcher from "@/layouts/components/NavbarThemeSwitcher.vue";
 import NavSearchBar from "@/layouts/components/NavSearchBar.vue";
 import UserProfile from "@/layouts/components/UserProfile.vue";
+import store from "@/store/index.js";
 
 // @layouts plugin
 import { VerticalNavLayout } from "@layouts";
 
 const { appRouteTransition, isLessThanOverlayNavBreakpoint } = useThemeConfig();
 const { width: windowWidth } = useWindowSize();
+const listNotifications = () => {
+  store.dispatch('listNotifications')
+}
 </script>
 
 <template>
@@ -21,12 +25,8 @@ const { width: windowWidth } = useWindowSize();
     <!-- 👉 navbar -->
     <template #navbar="{ toggleVerticalOverlayNavActive }">
       <div class="d-flex h-100 align-center">
-        <IconBtn
-          v-if="isLessThanOverlayNavBreakpoint(windowWidth)"
-          id="vertical-nav-toggle-btn"
-          class="ms-n3"
-          @click="toggleVerticalOverlayNavActive(true)"
-        >
+        <IconBtn v-if="isLessThanOverlayNavBreakpoint(windowWidth)" id="vertical-nav-toggle-btn" class="ms-n3"
+          @click="toggleVerticalOverlayNavActive(true)">
           <VIcon icon="mdi-menu" />
         </IconBtn>
 
@@ -37,7 +37,7 @@ const { width: windowWidth } = useWindowSize();
         <!-- <NavBarI18n /> -->
         <NavbarThemeSwitcher />
         <!-- <NavbarShortcuts /> -->
-        <NavBarNotifications class="me-2" />
+        <NavBarNotifications class="me-2" @click="listNotifications" />
         <UserProfile />
       </div>
     </template>

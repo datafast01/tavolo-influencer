@@ -160,6 +160,8 @@ export default {
     if (this.isEmpty(this.userProfile)) {
 
       store.dispatch("getProfile");
+      store.dispatch("listNotifications");
+
 
     }
   }
