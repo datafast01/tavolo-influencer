@@ -75,7 +75,7 @@
 
         <VDivider />
 
-        <!-- 👉 Footer -->
+
         <VCardText v-show="props.notifications.length" class="notification-footer">
           <VBtn block> VIEW ALL NOTIFICATIONS </VBtn>
         </VCardText>
