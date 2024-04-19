@@ -16,33 +16,37 @@
 
     <VCard>
       <!-- SECTION data table -->
+
       <VDataTableServer v-model:items-per-page="options.itemsPerPage" v-model:page="options.page" :items="contracts"
-        :items-length="totalUsers" :headers="headers" class="" :loading="isLoading" item-key="key">
+        :headers="headers" class="" :loading="isLoading" item-key="key">
         <!-- Seegments -->
         <!-- <template #item.profilePhoto="{ item }">
           <div class="py-3">fullName</div>
         </template> -->
+
+        <template #item.title="{ item }">
+          <span class="text-sm">
+            {{ item.contractDetails.title }}
+          </span>
+        </template>
         <template #item.status="{ item }">
-          <VChip :color="item.status ? 'primary' : 'error'" :class="`text-${item.status ? 'primary' : 'error'}`"
+          <VChip :color="item.status == 'pending' ? 'primary' : item.status == 'active' ? 'success' : 'error'"
+            :class="`text-${item.status == 'pending' ? 'primary' : item.status == 'active' ? 'success' : 'error'}`"
             size="small" class="font-weight-medium">
-            {{ item.status ? "Completed" : "Pending" }}
+            {{ item.status == 'pending' ? 'Pending' : item.status == 'active' ? 'Active' : 'Cancelled' }}
           </VChip>
         </template>
 
-        <template #item.dateofAgreement="{ item }">
+        <template #item.contractDetails="{ item }">
           <span class="text-sm">
-            {{
-              item.dateofAgreement == null
-                ? "Date Not Available"
-                : moment(item.dateofAgreement).format("MMMM Do YYYY")
-            }}
+            {{ item.contractDetails.dateOfAgreement }}
           </span>
         </template>
 
         <template #item.paymentPlan="{ item }">
           <div class="d-flex flex-column">
             <span class="text-sm">
-              {{ item.paymentPlan }}
+              {{ item.contractDetails.paymentPlan }}
             </span>
             <small>
               {{ item.pricing }}
@@ -187,7 +191,7 @@ const sendRequest = () => {
 const headers = [
   {
     id: 0,
-    title: "Influencer Name",
+    title: "Business Name",
     key: "influencerName",
   },
   {
@@ -198,12 +202,12 @@ const headers = [
   {
     id: 2,
     title: "Contract Title",
-    key: "contractTitle",
+    key: "title",
   },
   {
     id: 3,
     title: "Date of Agreement",
-    key: "dateofAgreement",
+    key: "contractDetails",
   },
   {
     id: 4,
@@ -222,18 +226,16 @@ const headers = [
   },
 ];
 
-const contracts = [
-
-];
+const contracts = ref([])
 
 const router = useRouter();
 const route = useRoute();
 const listContracts = () => {
   axios
-    .get(`influencer/contracts/list?status=active&sortBy=createdAt`)
+    .get(`influencer/contracts/list?sortBy=createdAt`)
     .then((response) => {
       console.log("user", response.data);
-      contracts.value = response.data
+      contracts.value = response.data.data
 
     })
     .catch((err) => {
@@ -242,7 +244,8 @@ const listContracts = () => {
 }
 listContracts()
 const viewDetails = (item) => {
-  router.push({ path: `/contract-details/${item.id}` });
+
+  router.push({ path: `/contract-details/${item._id}` });
 };
 </script>
 
