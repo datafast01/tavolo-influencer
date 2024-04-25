@@ -16,6 +16,8 @@
 </template>
 
 <script>
+import axios from '@axios'
+
 export default {
     data() {
         return {
@@ -27,6 +29,17 @@ export default {
                 { url: 'video3.mp4' }
             ]
         };
+    },
+    methods: {
+        getInfluencerProjects() {
+            axios.get('influencer/list/projects')
+                .then((res) => {
+                    console.log(res)
+                })
+        }
+    },
+    mounted() {
+        this.getInfluencerProjects()
     }
 };
 </script>

@@ -9,7 +9,8 @@
       <VCard class="d-flex flex-column">
         <!-- 👉 Header -->
         <VCardItem class="notification-section">
-          <VCardTitle class="text-lg"> Notifications </VCardTitle>
+
+          <VCardTitle class="text-lg"> Notifications {{ isAllMarkRead }} </VCardTitle>
 
           <template #append>
             <IconBtn v-show="props.notifications.length" @click="markAllReadOrUnread">
@@ -34,7 +35,7 @@
             <template v-for="(notification, index) in props.notifications" :key="index">
               <VDivider v-if="index > 0" />
               <VListItem link lines="one" min-height="66px" class="list-item-hover-class"
-                @click="$emit('click:notification', notification)">
+                @click="onNotification(notification)">
                 <!-- Slot: Prepend -->
                 <!-- Handles Avatar: Image, Icon, Text -->
 
@@ -44,7 +45,7 @@
                   notification.message
                 }}</VListItemSubtitle>
                 <span class="text-xs text-disabled">{{
-                  notification.updatedAt
+                  moment(notification.updatedAt).fromNow()
                 }}</span>
 
                 <!-- Slot: Append -->
@@ -52,7 +53,7 @@
                   <div class="d-flex flex-column align-center gap-4">
                     <VBadge dot :color="notification.status == 'unread' ? 'primary' : '#a8aaae'" :class="`${notification.status == 'unread' ? 'visible-in-hover' : ''
                       } ms-1`" @click.stop="
-                        changeStatus(notification._id, notification.status)
+                        markReadUnread(notification._id, notification.status)
                         " />
 
                     <div style="block-size: 28px; inline-size: 28px">
@@ -93,6 +94,13 @@ import { avatarText } from "@core/utils/formatters";
 import play1 from "@/assets/images/cards/folder.png";
 import RequestAcceptedDialog from "@/pages/contracts/RequestAcceptedDialog.vue";
 import moment from "moment";
+import { useRoute, useRouter } from "vue-router";
+
+import axios from '@axios'
+
+import { ref } from 'vue';
+// import socket from '@/socket';
+
 
 
 
@@ -120,10 +128,54 @@ const isAllMarkRead = computed(() =>
   props.notifications.some((item) => item.status === false)
 );
 
+// socket.on('notification', (data) => {
+//   // Handle the notification data
+//   console.log('Notification received:', data);
+//   // You can update your component's state, show a notification, etc.
+// });
+
+// Don't forget to remove the listener when the component is destroyed
+// const onDestroyed = () => {
+//   socket.off('notification');
+// }
+
+// onDestroyed()
+
+const changeStatus = (payload) => {
+  axios
+    .post(`Notification/change-status`, payload)
+    .then((response) => {
+      console.log("user", response.data);
+
+
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+const router = useRouter();
+const route = useRoute();
+
+const onNotification = (notification) => {
+  // router.push(`/contract-details/${notification._id}`)
+  const payload = {
+    status: 'read',
+    notifications: [notification._id]
+  }
+  changeStatus(payload)
+  router.replace(route.query.to ? String(route.query.to) : `/contract-details/${notification.redirectLink}`);
+}
+
 const markAllReadOrUnread = () => {
-  const allNotificationsIds = props.notifications.map((item) => item.id);
+  const allNotificationsIds = props.notifications.map((item) => item._id);
   if (!isAllMarkRead.value) emit("unread", allNotificationsIds);
   else emit("read", allNotificationsIds);
+  const payload = {
+    notifications: allNotificationsIds,
+    status: isAllMarkRead ? 'read' : 'unread'
+  }
+  changeStatus(payload)
+
 };
 
 const removeNotification = (notificationId) => {
@@ -132,16 +184,37 @@ const removeNotification = (notificationId) => {
     if (notificationId === item._id) {
 
       props.notifications.splice(index, 1)
+      const payload = { notifications: [notificationId] }
+      axios
+        .post(`Notification/clear`, payload)
+        .then((response) => {
+          console.log("user", response.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   });
 };
-const changeStatus = (notificationId) => {
+const markReadUnread = (notificationId) => {
+
   props.notifications.forEach((item) => {
     if (notificationId === item._id && item.status == 'unread') {
       item.status = 'read'
+      const readPayload = {
+        notifications: [notificationId],
+        status: 'read'
+      }
+      changeStatus(readPayload)
+
     } else if
       (notificationId === item._id && item.status == 'read') {
       item.status = 'unread'
+      const unreadPayload = {
+        notifications: [notificationId],
+        status: 'unread'
+      }
+      changeStatus(unreadPayload)
     }
 
 

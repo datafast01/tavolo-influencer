@@ -14,9 +14,19 @@ import DefineOptions from 'unplugin-vue-define-options/vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  server: {
+    proxy: {
+      '/socket.io': {
+        target: 'http://16.171.214.197:8081',
+        ws: true,
+        changeOrigin: true
+      }
+    }
+  },
   plugins: [
     vue(),
     vueJsx(),
+
 
     // https://github.com/vuetifyjs/vuetify-loader/tree/next/packages/vite-plugin
     vuetify({

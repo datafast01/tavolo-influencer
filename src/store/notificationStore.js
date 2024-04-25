@@ -6,7 +6,7 @@ export default {
 
     state: {
         notifications: [],
-
+        scNotifications: [],
         loading: false,
 
     },
@@ -21,6 +21,7 @@ export default {
 
     },
     actions: {
+
         listNotifications({ commit, state }) {
 
             axios

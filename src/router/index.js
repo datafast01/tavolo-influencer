@@ -67,10 +67,18 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
+    path: "/project-details/:id",
+    name: "porject-details",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../pages/contracts/ActiveContractDetails.vue"),
+    //  redirect: () => ({  name: 'login' }),
+    meta: { requiresAuth: true },
+  },
+  {
     path: "/contracts",
     name: "contracts",
     component: () =>
-      import(/* webpackChunkName: "about" */ "../pages/contracts/ListContracts.vue"),
+      import(/* webpackChunkName: "about" */ "../pages/contracts/AllContractsTabs.vue"),
     //  redirect: () => ({  name: 'login' }),
     meta: { requiresAuth: true },
   },
