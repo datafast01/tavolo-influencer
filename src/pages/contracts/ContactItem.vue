@@ -1,32 +1,24 @@
 <template>
   <v-row no-gutters>
-    <v-col
-      cols="12"
-      v-for="index in data.actions.slice(0, data.countsnum)"
-      :key="index.id"
-    >
-      <div class="me-3 border-t py-2 d-flex align-center justify-space-between">
+    <v-col cols="12" v-for="files in projectFiles" :key="files">
+      <div class="me-3 border-t py-2 d-flex align-center justify-space-between"
+        @click="downloadVideo(files.videoFilePath)">
         <div rounded class="d-flex align-center justifycenter">
           <div class="bg-darken2">
             <v-img :src="play1" height="20" width="20" alt="John"></v-img>
           </div>
           <div class="text-left">
-            <span class="font-12">Yesterday</span>
-            <h4 class="l-h">{{ index.name }}</h4>
-            <span class="font-12">{{ index.size }}</span>
+            <span class="font-12">{{ files.createdAt }}</span>
+            <h4 class="l-h">File Name</h4>
+            <span class="font-12">{{ files.videoFileSize }}</span>
           </div>
         </div>
-      
+
       </div>
     </v-col>
     <v-col cols="12" class="text-center">
-      <v-btn
-        v-if="data.countsnum < data.actions.length"
-        @click="loadMore"
-        color="grey-darken-2 "
-        size="small"
-        class="btn btn-sm btn-danger"
-      >
+      <v-btn v-if="data.countsnum < data.actions.length" @click="loadMore" color="grey-darken-2 " size="small"
+        class="btn btn-sm btn-danger">
         View More
       </v-btn>
     </v-col>
@@ -36,8 +28,14 @@
 import { reactive } from "vue";
 import download from "@/assets/images/cards/download.png";
 import play1 from "@/assets/images/cards/folder.png";
+import axios from 'axios'
 export default {
-  props: ["sendRequest"],
+  props: {
+    projectFiles: {
+      type: Array,
+      default: []
+    }
+  },
   data() {
     return {
       data: reactive({
@@ -102,6 +100,27 @@ export default {
     executeSendRequest() {
       this.sendRequest(); // Call the sendRequest function passed from the parent
     },
+    downloadVideo(url) {
+      const s3Url = url; // Replace with your S3 URL
+      const fileName = 'video.mp4'; // Replace with the desired filename
+
+      axios({
+        method: 'get',
+        url: s3Url,
+        responseType: 'blob',
+      })
+        .then(response => {
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+          const link = document.createElement('a');
+          link.href = url;
+          link.setAttribute('download', fileName);
+          document.body.appendChild(link);
+          link.click();
+        })
+        .catch(error => {
+          console.error('Error downloading video:', error);
+        });
+    }
   },
 };
 </script>

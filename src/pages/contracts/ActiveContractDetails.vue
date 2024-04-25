@@ -220,10 +220,11 @@
                                     <v-btn class="mr-5" @click="uploadFiles" elevation="24" size="large">UPLOAD NEW
                                         FILE</v-btn>
                                 </div>
-                                <v-card-item>
+                                <v-card-item v-if="projectFiles">
+
                                     <v-row no-gutters>
                                         <v-col cols="12" class="text-center">
-                                            <ContactItem :send-request="sendRequest" />
+                                            <ContactItem :send-request="sendRequest" :projectFiles="projectFiles" />
                                         </v-col>
                                     </v-row>
                                 </v-card-item>
@@ -281,7 +282,8 @@ export default {
             loading: false,
             initialOptions: [{ name: 'Accept', status: 'accept' }, { name: 'Reject', status: 'reject' }],
             inProgressOptions: [{ name: 'Submit', status: 'submit' }],
-            fileLoading: false
+            fileLoading: false,
+            projectFiles: []
 
         };
     },
@@ -333,6 +335,7 @@ export default {
                 .then((response) => {
                     console.log(response)
                     this.details = response.data.data.project
+                    this.projectFiles = response.data.data?.projectMedia
                     this.loading = false
 
                 })
