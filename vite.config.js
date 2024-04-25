@@ -17,7 +17,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/socket.io': {
-        target: 'http://16.171.214.197:8081',
+        target: 'https://test.tavolo.ai',
         ws: true,
         changeOrigin: true
       }
