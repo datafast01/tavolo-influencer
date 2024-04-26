@@ -8,20 +8,19 @@
             <v-img :src="play1" height="20" width="20" alt="John"></v-img>
           </div>
           <div class="text-left">
-            <span class="font-12">{{ files.createdAt }}</span>
+            <span class="font-12">{{ moment(files.createdAt).fromNow() }}</span>
             <h4 class="l-h">File Name</h4>
-            <span class="font-12">{{ files.videoFileSize }}</span>
+            <span class="font-12">{{ bytesToMB(files.videoFileSize) }}MB</span>
           </div>
         </div>
 
       </div>
     </v-col>
-    <v-col cols="12" class="text-center">
-      <v-btn v-if="data.countsnum < data.actions.length" @click="loadMore" color="grey-darken-2 " size="small"
-        class="btn btn-sm btn-danger">
+    <!-- <v-col cols="12" class="text-center">
+      <v-btn color="grey-darken-2 " size="small" class="btn btn-sm btn-danger">
         View More
       </v-btn>
-    </v-col>
+    </v-col> -->
   </v-row>
 </template>
 <script>
@@ -29,6 +28,8 @@ import { reactive } from "vue";
 import download from "@/assets/images/cards/download.png";
 import play1 from "@/assets/images/cards/folder.png";
 import axios from 'axios'
+import moment from "moment";
+
 export default {
   props: {
     projectFiles: {
@@ -38,67 +39,15 @@ export default {
   },
   data() {
     return {
-      data: reactive({
-        actions: [
-          {
-            id: 0,
-            name: "Iphone 12",
-            size: "3.8 GB",
-            image: download,
-          },
-          {
-            id: 1,
-            name: "Samsung s10",
-            size: "1.8 GB",
-            image: download,
-          },
-          {
-            id: 2,
-            name: "Samsung Tv",
-            size: "2.8 GB",
-            image: download,
-          },
-          {
-            id: 3,
-            name: "Huwawei Mate",
-            size: "1.8 GB",
-            image: download,
-          },
-          {
-            id: 4,
-            name: "Samsung s10",
-            size: "2.8 GB",
-            image: download,
-          },
-          {
-            id: 5,
-            name: "Samsung Tv",
-            size: "2.8 GB",
-            image: download,
-          },
-          {
-            id: 6,
-            name: "Huwawei Mate",
-            size: "0.8 GB",
-            image: download,
-          },
-        ],
-        countsnum: 2,
-      }),
+      moment: moment,
       download: download,
       play1: play1,
     };
   },
   methods: {
-    loadMore() {
-      if (this.data.countsnum >= this.data.actions.length) {
-        return;
-      } else {
-        this.data.countsnum += 2;
-      }
-    },
-    executeSendRequest() {
-      this.sendRequest(); // Call the sendRequest function passed from the parent
+
+    bytesToMB(bytes) {
+      return (bytes / (1024 * 1024)).toFixed(2);
     },
     downloadVideo(url) {
       const s3Url = url; // Replace with your S3 URL
