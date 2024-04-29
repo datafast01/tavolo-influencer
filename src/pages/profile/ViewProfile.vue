@@ -13,8 +13,7 @@
             <div>
               <div class="relative" style="position: relative">
                 <div v-if="userProfile.avatar">
-                  <v-avatar :image="'https://test.tavolo.ai/' + userProfile.avatar" size="180"
-                    class="custom-avatar"></v-avatar>
+                  <v-avatar :image="userProfile.avatar" size="180" class="custom-avatar"></v-avatar>
                 </div>
                 <div v-else>
 
