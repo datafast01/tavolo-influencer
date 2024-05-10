@@ -40,7 +40,7 @@
 
                 <img :src="verified" alt="" srcset="" />
               </span>
-              <span> @socialmediausername </span>
+              <!-- <span> @socialmediausername </span> -->
             </div>
           </div>
           <div class="d-flex flex-column">
@@ -56,7 +56,7 @@
         </div>
         <v-tabs v-model="tab" color="deep-purple-accent-4" align-tabs="space-between">
           <v-tab value="0">Bio</v-tab>
-          <v-tab value="1">Projects</v-tab>
+          <!-- <v-tab value="1">Projects</v-tab> -->
 
           <v-tab value="2">Pricing</v-tab>
 
@@ -66,9 +66,9 @@
           <v-window-item value="0">
             <InfluencerBio :details="details" />
           </v-window-item>
-          <v-window-item value="1">
+          <!-- <v-window-item value="1">
             <Projects />
-          </v-window-item>
+          </v-window-item> -->
 
           <v-window-item value="2">
             <InfuPricing />

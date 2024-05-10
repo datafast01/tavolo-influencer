@@ -36,7 +36,27 @@
                 label="Currency" :rules="[requiredValidator]">
               </v-select>
             </VCol> -->
+            <v-col cols="12" class="text-center">
+              <span class="text-h5">{{ editMode ? 'Edit' : 'Add' }} payment details</span>
+            </v-col>
+            <VCol cols="12">
+              <VTextField v-model="cardNumber" label="Card Number" :rules="[requiredValidator]" />
+            </VCol>
 
+            <!-- 👉 Card Name -->
+            <VCol cols="12" md="6">
+              <VTextField v-model="cardHolderName" label="Card Holder Name" />
+            </VCol>
+
+            <!-- 👉 Card Expiry -->
+            <VCol cols="6" md="3">
+              <VTextField v-model="expiry" :rules="[requiredValidator, expiredateValidator]" label="Expiry" />
+            </VCol>
+
+            <!-- 👉 Card CVV -->
+            <VCol cols="6" md="3">
+              <VTextField v-model="cvv" label="CVV" />
+            </VCol>
           </v-row>
         </v-form>
       </v-card-text>
@@ -52,6 +72,8 @@
 import done from "@/assets/images/cards/done2.png";
 import axios from '@axios'
 import { requiredValidator } from "@/@core/utils/validators";
+import { vMaska } from "maska";
+import { masking } from "@core/utils/masking";
 
 export default {
   props: {
@@ -64,6 +86,7 @@ export default {
       default: () => ({})
     }
   },
+  directives: { maska: vMaska },
   data() {
     return {
       requiredValidator: requiredValidator,
@@ -82,7 +105,8 @@ export default {
       currency: null,
       price: '',
       title: '',
-      description: ''
+      description: '',
+      cardNumber: ''
     }
   },
   watch: {

@@ -26,29 +26,24 @@
           {{ details.about }}
         </v-card-text>
 
-        <!-- <v-card-text v-if="bio.accounts">
-          <div class="d-flex justify-space-between my-5" v-for="account in bio.accounts" :key="account">
-            <div>
-              <v-icon>{{
-                account.account == "Facebook"
-                ? "mdi-facebook"
-                : account.account == "Instagram"
-                ? "mdi-instagram"
-                : "mdi-music-note"
-                }}</v-icon>
-              {{ account.account }}
-            </div>
-            <div>
-              <VBtn icon variant="outlined" size="small" color="secondary" class="rounded">
-                <VIcon size="24" icon="mdi-link-variant
-                        " />
-              </VBtn>
-            </div>
-          </div>
-        </v-card-text>
+
+      </v-card>
+    </div>
+
+    <div class="my-8">
+      <div class="d-flex">
+        <span class="ml-2"> Social Media Username</span>
+
+
+
+      </div>
+      <v-card class="mt-4" elevation="16">
+        <v-textarea v-if="detailsActions" v-model="details.socialMediaUsername"></v-textarea>
         <v-card-text v-else>
-          {{ bio.desc }}
-        </v-card-text> -->
+          {{ details.socialMediaUsername }}
+        </v-card-text>
+
+
       </v-card>
     </div>
     <div class="my-8">
@@ -65,20 +60,7 @@
 
       </v-card>
     </div>
-    <div class="my-8">
-      <div class="d-flex ">
-        <span class="ml-2"> Education</span>
 
-
-      </div>
-      <v-card class="mt-4" elevation="16">
-        <v-textarea v-if="detailsActions" v-model="details.education"></v-textarea>
-        <v-card-text v-else>
-          {{ details.education }}
-        </v-card-text>
-
-      </v-card>
-    </div>
     <div class="my-8">
       <div class="d-flex ">
         <span class="ml-2"> Expecience</span>
@@ -93,32 +75,10 @@
 
       </v-card>
     </div>
+
     <div class="my-8">
-      <div class="d-flex ">
-        <span class="ml-2"> interests</span>
-
-      </div>
-      <v-card class="mt-4" elevation="16">
-        <v-textarea v-if="detailsActions" v-model="details.interests"></v-textarea>
-        <v-card-text v-else>
-          {{ details.interests }}
-        </v-card-text>
-
-      </v-card>
-    </div>
-    <div class="my-8">
-      <div class="d-flex ">
-        <span class="ml-2"> Achievements</span>
 
 
-      </div>
-      <v-card class="mt-4" elevation="16">
-        <v-textarea v-if="detailsActions" v-model="details.achievements"></v-textarea>
-        <v-card-text v-else>
-          {{ details.achievements }}
-        </v-card-text>
-
-      </v-card>
       <div class="mt-4 d-flex justify-end" v-if="detailsActions">
         <v-btn @click="detailsActions = false" variant="outlined" class="mr-2">Cancel</v-btn>
 
@@ -150,9 +110,7 @@ export default {
       details: {
         about: '',
         profession: '',
-        education: '',
-        achievements: '',
-        interests: '',
+
         experience: ''
 
 
@@ -175,10 +133,9 @@ export default {
         .post("/influencer/update-content/", {
           about: this.details.about,
           experience: this.details.experience,
-          education: this.details.education,
+
           profession: this.details.profession,
-          interests: this.details.interests,
-          achievements: this.details.achievements,
+
 
         })
         .then((res) => {

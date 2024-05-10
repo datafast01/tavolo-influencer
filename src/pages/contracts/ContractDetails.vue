@@ -34,14 +34,14 @@
 
           <v-col cols="6" class="pa-0 d-flex align-center justify-end">
             <div class="float-right">
-              <v-btn color="#312D4B" size="large" class="mr-4" @click="showChat">
-                <v-img :src="chat" class="flex-grow-0" height="30" width="30" alt="John"></v-img></v-btn>
+              <!-- <v-btn color="#312D4B" size="large" class="mr-4" @click="showChat">
+                  <v-img :src="chat" class="flex-grow-0" height="30" width="30" alt="John"></v-img></v-btn> -->
               <v-btn elevation="24" size="large" v-if="details.status != 'reject'">
                 OPTIONS
                 <v-icon>mdi-chevron-down</v-icon>
                 <VMenu activator="parent">
                   <VList v-if="details.status == 'active'">
-                    <VListItem @click="submitOrder">
+                    <VListItem @click="uploadFiles">
 
                       <VListItemTitle class="text-uppercase">Submit</VListItemTitle>
                     </VListItem>
@@ -234,7 +234,7 @@
       </v-card>
 
       <ReviewDialog v-model:isDialogVisible="isCardEditDialogVisible" />
-      <PauseDialog v-model:isDialogVisible="isCardEditDialogVisibles" />
+      <!-- <PauseDialog v-model:isDialogVisible="isCardEditDialogVisibles" /> -->
       <FileUpload ref="fileUpload" @upload-file="sendfiles" :loading="fileLoading" />
 
 
@@ -296,17 +296,19 @@ export default {
         let file = files[i];
         formData.append('video[' + i + ']', file);
       }
+      formData.append('projectId', this.$route.params.id)
 
 
-      axios.post(`upload-project-media`, formData)
+      axios.post(`influencer/upload-project-media`, formData)
         .then((response) => {
           console.log(response)
 
-
+          this.toast.success('Order submitted successfullly!')
         })
         .catch((err) => {
-          console.log('err')
-          this.loading = false
+          console.log(err.response.data)
+          this.fileLoading = false
+          this.toast.error(err.response.data.error)
 
         })
     },
